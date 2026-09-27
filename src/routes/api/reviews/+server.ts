@@ -1,15 +1,17 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
+// Import SvelteKit's secure environment variable reader
+import { env } from '$env/dynamic/private';
 
 export async function GET({ setHeaders }: RequestEvent) {
-    // Cache the reviews for 24 hours
     setHeaders({
         'Cache-Control': 'public, s-maxage=86400'
     });
     
-    // Your verified credentials
-    const PLACE_ID = 'ChIJ9frTUmlvqTsR_nrKmXlyrdc'; 
-    const API_KEY = 'AIzaSyDZ5ujD3QWPXennICznJz_i3xpluGG83EA';
+    // Securely read the keys from the environment variables
+    const PLACE_ID = env.GOOGLE_PLACE_ID; 
+    const API_KEY = env.GOOGLE_API_KEY;
     
+    // ... (the rest of your try/catch fetch code stays exactly the same)
     try {
         const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&fields=reviews&key=${API_KEY}`;
         const response = await fetch(url);
