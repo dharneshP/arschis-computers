@@ -1,11 +1,12 @@
 <script lang="ts">
+import { isBookingOpen } from '$lib/store';
     import Header from '$lib/components/Header.svelte';
     import Services from '$lib/components/Services.svelte';
     import Brands from '$lib/components/Brands.svelte';
     import Reviews from '$lib/components/Reviews.svelte';
     import Map from '$lib/components/Map.svelte';
     import Footer from '$lib/components/Footer.svelte';
-</script>
+    </script>
 
 <Header />
 
@@ -20,9 +21,9 @@
             <p class="text-lg sm:text-xl text-[#FFD700] font-medium mb-10">
                 Serving Erode with 20 years experience and 5-star rated service.
             </p>
-            <a href="#contact" class="inline-flex items-center bg-[#DC2626] text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition-all shadow-lg text-lg">
-                <i class="fa-solid fa-screwdriver-wrench mr-2"></i> Book a Service
-            </a>
+           <button onclick={(e) => { e.preventDefault(); $isBookingOpen = true; }} class="bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 text-lg inline-flex items-center w-fit">
+    <i class="fa-solid fa-wrench mr-2"></i> Book a Service
+</button>
         </div>
     </section>
 
