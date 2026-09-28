@@ -23,9 +23,3 @@
         </div>
     </div>
 </footer>
-
-<!-- Floating WhatsApp Action Button -->
-<!-- The aria-label="Chat with us on WhatsApp" safely resolves the Svelte warning -->
-<a href="https://wa.me/919944252527" target="_blank" aria-label="Chat with us on WhatsApp" class="fixed bottom-8 right-8 bg-[#25D366] text-white w-16 h-16 rounded-full shadow-2xl z-50 flex items-center justify-center hover:scale-110 transition-all border-2 border-white animate-bounce">
-    <i class="fa-brands fa-whatsapp text-4xl"></i>
-</a>
