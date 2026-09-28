@@ -7,9 +7,12 @@
     import Header from '$lib/components/Header.svelte';
     import Services from '$lib/components/Services.svelte';
     import Brands from '$lib/components/Brands.svelte';
+    import Gallery from '$lib/components/Gallery.svelte';
     import Reviews from '$lib/components/Reviews.svelte';
+    import FAQ from '$lib/components/FAQ.svelte';
     import Map from '$lib/components/Map.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import FloatingWhatsApp from '$lib/components/FloatingWhatsApp.svelte';
 
     // 3. The scroll-tracking logic for the new button
     let heroButtonElement: HTMLElement;
@@ -57,9 +60,13 @@
 
     <!-- Components strictly ordered to match design -->
     <Services />
-    <Map />
-    <Reviews />
     <Brands />
-</main>
+    <Gallery />
+    <Reviews />
+    <FAQ />
+    <Map />
+    </main>
 
 <Footer />
+<!-- Place the floating button at the very bottom so it doesn't interrupt page flow -->
+<FloatingWhatsApp />
