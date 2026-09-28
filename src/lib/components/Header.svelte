@@ -1,23 +1,23 @@
 <script lang="ts">
     import BookingModal from './BookingModal.svelte';
-    import { isBookingOpen } from '$lib/store';
+    import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
 </script>
 
 <header class="bg-white shadow-sm sticky top-0 z-50">
-    <!-- Yellow Top Bar -->
-    <div class="bg-[#FFD700] text-slate-900 text-xs py-2 px-4 font-bold border-b border-yellow-500">
+    <!-- Yellow Top Bar (Mobile Optimized) -->
+    <div class="bg-[#FFD700] text-slate-900 text-xs py-2 px-3 sm:px-4 font-bold border-b border-yellow-500">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <span><i class="fa-solid fa-location-dot text-[#DC2626] mr-1"></i> Erode, Tamil Nadu</span>
-            <a href="tel:+919944252527" class="hover:text-[#DC2626] transition"><i class="fa-solid fa-phone mr-1"></i> Call Us Today</a>
+            <span class="truncate mr-2"><i class="fa-solid fa-location-dot text-[#DC2626] mr-1"></i> <span class="hidden sm:inline">Erode, </span>Tamil Nadu</span>
+            <a href="tel:+919944252527" class="hover:text-[#DC2626] transition whitespace-nowrap shrink-0"><i class="fa-solid fa-phone mr-1"></i> Call Us<span class="hidden sm:inline"> Today</span></a>
         </div>
     </div>
     
     <!-- Main Header -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-        <div class="flex items-center">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-2 sm:py-3 flex justify-between items-center gap-2">
+        <div class="flex items-center min-w-0">
             
             <!-- Custom SVG Logo -->
-            <svg viewBox="0 0 100 100" class="h-10 sm:h-12 w-auto mr-3 shrink-0 transition-transform hover:scale-105" fill="none" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <svg viewBox="0 0 100 100" class="h-9 sm:h-12 w-auto mr-2 sm:mr-3 shrink-0 transition-transform hover:scale-105" fill="none" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M35 30 C 20 20, 10 40, 25 55" /> 
                 <path d="M35 30 C 50 15, 75 25, 75 45 C 75 65, 55 65, 50 65" /> 
                 <path d="M50 65 C 45 65, 35 75, 40 85 C 45 95, 55 90, 55 80" /> 
@@ -25,27 +25,29 @@
                 <path d="M45 20 L 50 28 L 55 20" stroke="#DC2626" stroke-width="2" />
             </svg>
             
-            <div class="flex flex-col justify-center">
-                <h1 class="text-xl sm:text-2xl font-extrabold text-[#DC2626] tracking-wide leading-none mb-1">ARSCHIS COMPUTERS</h1>
-                <p class="text-[10px] text-slate-700 font-bold uppercase tracking-widest leading-none">Multi Brand's Sales & Service</p>
+            <div class="flex flex-col justify-center min-w-0">
+                <h1 class="text-[16px] sm:text-2xl font-extrabold text-[#DC2626] tracking-wide leading-none mb-0.5 sm:mb-1 truncate">ARSCHIS COMPUTERS</h1>
+                <p class="text-[8px] sm:text-[10px] text-slate-700 font-bold uppercase tracking-widest leading-none truncate">Multi Brand's Sales & Service</p>
             </div>
         </div>
         
         <!-- Desktop Navigation & Booking Button -->
-        <div class="flex items-center space-x-6">
-            <div class="hidden md:flex space-x-8 text-sm font-bold text-slate-600 mr-4">
+        <div class="flex items-center shrink-0">
+            <div class="hidden md:flex space-x-8 text-sm font-bold text-slate-600 mr-5">
                 <a href="#services" class="hover:text-[#DC2626] transition">Services</a>
                 <a href="#brands" class="hover:text-[#DC2626] transition">Brands</a>
                 <a href="#contact" class="hover:text-[#DC2626] transition">Contact</a>
             </div>
             
-            <!-- The Trigger Button -->
-<button onclick={() => $isBookingOpen = true} class="bg-[#DC2626] hover:bg-red-700 text-white font-bold py-2 px-5 rounded-lg shadow-md transition-all hover:-translate-y-0.5 text-sm sm:text-base flex items-center">
-    <i class="fa-regular fa-calendar-check mr-2"></i> Book Service
-</button>
+            <!-- The Trigger Button (Mobile Optimized & ONLY VISIBLE ON SCROLL) -->
+            {#if $isHeaderButtonVisible}
+            <button onclick={() => $isBookingOpen = true} class="bg-[#DC2626] hover:bg-red-700 text-white font-bold py-1.5 px-3 sm:py-2 sm:px-5 rounded-md sm:rounded-lg shadow-md transition-all hover:-translate-y-0.5 text-xs sm:text-base flex items-center whitespace-nowrap animate-in fade-in slide-in-from-right-4 duration-300">
+                <i class="fa-regular fa-calendar-check mr-1.5"></i> Book<span class="hidden sm:inline">&nbsp;Service</span>
+            </button>
+            {/if}
         </div>
     </div>
 </header>
 
-<!-- The actual modal component -->
+<!-- The actual modal component, hidden until the button is clicked -->
 <BookingModal bind:showModal={$isBookingOpen} />

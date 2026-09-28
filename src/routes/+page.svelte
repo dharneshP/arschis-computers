@@ -1,12 +1,40 @@
 <script lang="ts">
-import { isBookingOpen } from '$lib/store';
+    // 1. Your global state and Svelte utilities
+    import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
+    import { onMount } from 'svelte';
+    
+    // 2. Restore your missing component imports!
     import Header from '$lib/components/Header.svelte';
     import Services from '$lib/components/Services.svelte';
     import Brands from '$lib/components/Brands.svelte';
     import Reviews from '$lib/components/Reviews.svelte';
     import Map from '$lib/components/Map.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    </script>
+
+    // 3. The scroll-tracking logic for the new button
+    let heroButtonElement: HTMLElement;
+
+    onMount(() => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                $isHeaderButtonVisible = !entry.isIntersecting;
+            });
+        }, {
+            threshold: 0, 
+            rootMargin: "-80px 0px 0px 0px" 
+        });
+
+        if (heroButtonElement) {
+            observer.observe(heroButtonElement);
+        }
+
+        return () => {
+            if (heroButtonElement) {
+                observer.unobserve(heroButtonElement);
+            }
+        };
+    });
+</script>
 
 <Header />
 
@@ -21,7 +49,7 @@ import { isBookingOpen } from '$lib/store';
             <p class="text-lg sm:text-xl text-[#FFD700] font-medium mb-10">
                 Serving Erode with 20 years experience and 5-star rated service.
             </p>
-           <button onclick={(e) => { e.preventDefault(); $isBookingOpen = true; }} class="bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 text-lg inline-flex items-center w-fit">
+           <button bind:this={heroButtonElement} onclick={(e) => { e.preventDefault(); $isBookingOpen = true; }} class="bg-[#DC2626] hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:-translate-y-1 text-lg inline-flex items-center w-fit">
     <i class="fa-solid fa-wrench mr-2"></i> Book a Service
 </button>
         </div>
