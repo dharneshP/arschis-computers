@@ -8,7 +8,7 @@
         <div class="flex justify-between items-center h-20">
             
             <!-- Logo Area -->
-            <div class="flex-shrink-0 flex items-center min-w-0"> <!-- min-w-0 helps prevent flexbox overflow -->
+            <div class="flex-shrink-0 flex items-center min-w-0">
                 <a href="/" class="flex items-center group">
                     <!-- Custom SVG Logo -->
                     <svg viewBox="0 0 100 100" class="h-8 sm:h-12 w-auto mr-2 sm:mr-3 shrink-0 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
@@ -19,22 +19,21 @@
                         <path d="M45 20 L 50 28 L 55 20" stroke="#DC2626" stroke-width="2" />
                     </svg>
                     
-                    <!-- Added text-xl for mobile, sm:text-2xl for desktop, and whitespace-nowrap -->
                     <span class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight whitespace-nowrap">
                         ARSCHIS <span class="text-[#DC2626]">COMPUTERS</span>
                     </span>
                 </a>
             </div>
 
-            <!-- Desktop Navigation (Quick Links) -->
+            <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8 items-center justify-end flex-1">
                 <a href="/" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Home</a>
                 <a href="/store" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Store</a>
                 <a href="/gallery" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Gallery</a>
                 <a href="/faq" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">FAQ</a>
                 
-                <!-- Scroll-Triggered Booking Button -->
-                <div class="overflow-hidden flex items-center transition-all duration-500 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] ml-4 opacity-100' : 'max-w-0 ml-0 opacity-0' }">
+                <!-- Scroll-Triggered Desktop Booking Button -->
+                <div class="overflow-hidden flex items-center transition-all duration-500 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] ml-4 opacity-100' : 'max-w-0 ml-0 opacity-0 pointer-events-none' }">
                     <button 
                         onclick={() => $isBookingOpen = true}
                         class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-lg font-bold shadow-md whitespace-nowrap"
@@ -44,15 +43,20 @@
                 </div>
             </nav>
 
-            <!-- Mobile Hamburger Button -->
-            <div class="md:hidden flex items-center space-x-3 sm:space-x-4 shrink-0"> <!-- Added shrink-0 to protect buttons -->
-                <button 
-                    onclick={() => $isBookingOpen = true}
-                    class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-3 sm:px-4 py-2 text-sm rounded-lg font-bold shadow-md transition-colors"
-                >
-                    Book
-                </button>
+            <!-- Mobile Buttons Area -->
+            <div class="md:hidden flex items-center shrink-0">
                 
+                <!-- Scroll-Triggered Mobile Booking Button -->
+                <div class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[100px] mr-3 opacity-100' : 'max-w-0 mr-0 opacity-0 pointer-events-none' }">
+                    <button 
+                        onclick={() => $isBookingOpen = true}
+                        class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-3 py-2 text-sm rounded-lg font-bold shadow-md transition-colors whitespace-nowrap"
+                    >
+                        Book
+                    </button>
+                </div>
+                
+                <!-- Hamburger Menu Toggle -->
                 <button 
                     onclick={() => isMobileMenuOpen = !isMobileMenuOpen}
                     class="text-slate-600 hover:text-[#DC2626] focus:outline-none p-1 transition-colors"
