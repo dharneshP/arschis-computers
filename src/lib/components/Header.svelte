@@ -1,5 +1,7 @@
 <script lang="ts">
     import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
+    
+    // Back to Svelte 5 state!
     let isMobileMenuOpen = $state(false);
 </script>
 
@@ -10,7 +12,6 @@
             <!-- Logo Area -->
             <div class="flex-shrink-0 flex items-center min-w-0">
                 <a href="/" class="flex items-center group">
-                    <!-- Custom SVG Logo -->
                     <svg viewBox="0 0 100 100" class="h-8 sm:h-12 w-auto mr-2 sm:mr-3 shrink-0 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M35 30 C 20 20, 10 40, 25 55" /> 
                         <path d="M35 30 C 50 15, 75 25, 75 45 C 75 65, 55 65, 50 65" /> 

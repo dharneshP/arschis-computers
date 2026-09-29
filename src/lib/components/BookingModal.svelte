@@ -1,6 +1,5 @@
 <script lang="ts">
-    // This allows the parent component to open/close this modal
-    let { showModal = $bindable(false) } =$props();
+    import { isBookingOpen } from '$lib/store';
     
     // Form states
     let name = $state('');
@@ -18,24 +17,29 @@
         window.open(`https://wa.me/919944252527?text=${text}`, '_blank');
         
         // Close modal and reset form
-        showModal = false;
+        $isBookingOpen = false;
         name = '';
         phone = '';
         issue = '';
     }
 </script>
 
-{#if showModal}
+{#if $isBookingOpen}
 <!-- Background Overlay -->
-<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4" onclick={() => showModal = false}>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4" onclick={() => $isBookingOpen = false}>
     
     <!-- Modal Card -->
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200" onclick={(e) => e.stopPropagation()}>
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         
         <!-- Header -->
         <div class="bg-[#1E3A8A] p-5 text-white flex justify-between items-center">
             <h3 class="text-xl font-bold flex items-center"><i class="fa-solid fa-wrench mr-2"></i> Book a Service</h3>
-            <button onclick={() => showModal = false} class="text-white/80 hover:text-white transition-colors" aria-label="Close form">
+            <!-- This is the actual accessible button that satisfies screen readers -->
+            <button onclick={() => $isBookingOpen = false} class="text-white/80 hover:text-white transition-colors" aria-label="Close form">
                 <i class="fa-solid fa-xmark text-2xl"></i>
             </button>
         </div>
