@@ -1,4 +1,5 @@
 <script lang="ts">
+    // Brought back isHeaderButtonVisible!
     import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
     
     // Svelte 5 reactive state
@@ -16,7 +17,6 @@
                     class="flex items-center group py-2" 
                     aria-label="Arschis Computers Home"
                 >
-                    <!-- Unified Logo Image (Icon + Text) -->
                     <img 
                         src="/logo.png" 
                         alt="Arschis Computers" 
@@ -26,21 +26,31 @@
             </div>
 
             <!-- Desktop Navigation -->
-            <nav class="hidden md:flex space-x-8 items-center justify-end flex-1">
+            <nav class="hidden md:flex space-x-6 lg:space-x-8 items-center justify-end flex-1">
                 <a href="/" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Home</a>
                 <a href="/store" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Store</a>
                 <a href="/gallery" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Gallery</a>
                 <a href="/faq" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">FAQ</a>
+                
+                <!-- Desktop Autohide Book Button -->
+                <div class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0 pointer-events-none' }">
+                    <button 
+                        onclick={() => $isBookingOpen = true}
+                        class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-5 py-2.5 text-sm rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 whitespace-nowrap"
+                    >
+                        Book a Service
+                    </button>
+                </div>
             </nav>
 
             <!-- Mobile Buttons Area -->
             <div class="md:hidden flex items-center shrink-0">
                 
-                <!-- Scroll-Triggered Mobile Booking Button -->
+                <!-- Mobile Autohide Book Button -->
                 <div class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[100px] mr-3 opacity-100' : 'max-w-0 mr-0 opacity-0 pointer-events-none' }">
                     <button 
                         onclick={() => $isBookingOpen = true}
-                        class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-3 py-2 text-sm rounded-lg font-bold shadow-md transition-colors whitespace-nowrap"
+                        class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-4 py-2 text-sm rounded-lg font-bold shadow-md transition-colors whitespace-nowrap"
                     >
                         Book
                     </button>
@@ -67,6 +77,16 @@
                 <a href="/store" onclick={() => isMobileMenuOpen = false} class="block px-4 py-3 text-base font-bold text-slate-700 hover:text-[#DC2626] hover:bg-slate-50 rounded-xl transition-colors">Store</a>
                 <a href="/gallery" onclick={() => isMobileMenuOpen = false} class="block px-4 py-3 text-base font-bold text-slate-700 hover:text-[#DC2626] hover:bg-slate-50 rounded-xl transition-colors">Gallery</a>
                 <a href="/faq" onclick={() => isMobileMenuOpen = false} class="block px-4 py-3 text-base font-bold text-slate-700 hover:text-[#DC2626] hover:bg-slate-50 rounded-xl transition-colors">FAQ</a>
+                
+                <!-- Keep a permanent book button inside the mobile dropdown menu -->
+                <div class="pt-2 mt-2 border-t border-slate-100">
+                    <button 
+                        onclick={() => { isMobileMenuOpen = false; $isBookingOpen = true; }}
+                        class="w-full text-center bg-[#DC2626] hover:bg-[#b91c1c] text-white font-bold py-3 rounded-xl shadow-sm transition-colors"
+                    >
+                        Book a Service
+                    </button>
+                </div>
             </div>
         </div>
     {/if}
