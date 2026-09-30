@@ -1,47 +1,36 @@
 <script lang="ts">
     import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
     
-    // Back to Svelte 5 state!
+    // Svelte 5 reactive state
     let isMobileMenuOpen = $state(false);
 </script>
 
-<header class="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+<header class="bg-white border-b border-slate-100 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-20">
             
-            <!-- Logo Area -->
-            <div class="flex-shrink-0 flex items-center min-w-0">
-                <a href="/" class="flex items-center group">
-                    <svg viewBox="0 0 100 100" class="h-8 sm:h-12 w-auto mr-2 sm:mr-3 shrink-0 transition-transform duration-300 group-hover:scale-110" fill="none" stroke="#1F2937" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M35 30 C 20 20, 10 40, 25 55" /> 
-                        <path d="M35 30 C 50 15, 75 25, 75 45 C 75 65, 55 65, 50 65" /> 
-                        <path d="M50 65 C 45 65, 35 75, 40 85 C 45 95, 55 90, 55 80" /> 
-                        <circle cx="45" cy="45" r="4" fill="#DC2626" stroke="none" /> 
-                        <path d="M45 20 L 50 28 L 55 20" stroke="#DC2626" stroke-width="2" />
-                    </svg>
-                    
-                    <span class="text-xl sm:text-2xl font-black text-slate-900 tracking-tight whitespace-nowrap">
-                        ARSCHIS <span class="text-[#DC2626]">COMPUTERS</span>
-                    </span>
+            <!-- Highlighted Unified Logo Area -->
+            <div class="flex-shrink-0 flex items-center">
+                <a 
+                    href="/" 
+                    class="flex items-center group py-2" 
+                    aria-label="Arschis Computers Home"
+                >
+                    <!-- Unified Logo Image (Icon + Text) -->
+                    <img 
+                        src="/logo.png" 
+                        alt="Arschis Computers" 
+                        class="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+                    />
                 </a>
             </div>
 
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8 items-center justify-end flex-1">
-                <a href="/" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Home</a>
-                <a href="/store" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Store</a>
-                <a href="/gallery" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">Gallery</a>
-                <a href="/faq" class="text-slate-600 hover:text-[#DC2626] font-medium transition-colors">FAQ</a>
-                
-                <!-- Scroll-Triggered Desktop Booking Button -->
-                <div class="overflow-hidden flex items-center transition-all duration-500 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] ml-4 opacity-100' : 'max-w-0 ml-0 opacity-0 pointer-events-none' }">
-                    <button 
-                        onclick={() => $isBookingOpen = true}
-                        class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-5 py-2.5 rounded-lg font-bold shadow-md whitespace-nowrap"
-                    >
-                        Book a Service
-                    </button>
-                </div>
+                <a href="/" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Home</a>
+                <a href="/store" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Store</a>
+                <a href="/gallery" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Gallery</a>
+                <a href="/faq" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">FAQ</a>
             </nav>
 
             <!-- Mobile Buttons Area -->
@@ -60,13 +49,13 @@
                 <!-- Hamburger Menu Toggle -->
                 <button 
                     onclick={() => isMobileMenuOpen = !isMobileMenuOpen}
-                    class="text-slate-600 hover:text-[#DC2626] focus:outline-none p-1 transition-colors"
+                    class="text-slate-700 hover:text-[#DC2626] focus:outline-none p-1 transition-colors"
                     aria-label="Toggle menu"
                 >
                     <i class="fa-solid {isMobileMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl"></i>
                 </button>
             </div>
-            
+
         </div>
     </div>
 
