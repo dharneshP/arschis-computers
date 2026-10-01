@@ -9,7 +9,6 @@
     const categories = ['All', 'Branded Desktops', 'PC Cabinets', 'PC Components'];
     const whatsappNumber = "919944252527"; 
 
-    // Initialize Sanity Client with your exact Project ID
     const client = createClient({
         projectId: 'aetlx2e6',
         dataset: 'production',
@@ -19,7 +18,6 @@
 
     onMount(async () => {
         try {
-            // This grabs only published products and converts the image to a raw URL automatically
             const query = `*[_type == "product"]{
                 name, 
                 category, 
@@ -42,6 +40,12 @@
             : products.filter((p: any) => p.category === activeCategory)
     );
 
+    // HELPER: Turns "Intel i3 | 8GB RAM" into a neat array for list rendering
+    function formatSpecs(specsString: string) {
+        if (!specsString) return [];
+        return specsString.split(/\||,/).map(s => s.trim()).filter(s => s.length > 0);
+    }
+
     function getWhatsAppLink(productName: string) {
         const message = encodeURIComponent(`Hi Arschis Computers, I am interested in the ${productName || 'product'}. Could you share the price and availability?`);
         return `https://wa.me/${whatsappNumber}?text=${message}`;
@@ -52,6 +56,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-12">
+            <!-- 1. Logo Added Here -->
+            <img 
+                src="/logo.png" 
+                alt="Arschis Computers Logo" 
+                class="h-20 md:h-24 mx-auto mb-6 object-contain"
+                onerror="this.style.display='none'"
+            />
             <h1 class="text-4xl md:text-5xl font-extrabold text-[#0F284F] mb-4">Our Store</h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
                 Browse our premium selection of branded desktops, high-airflow gaming cabinets, and core components. Tap 'Enquire' to get an instant quote via WhatsApp.
@@ -94,20 +105,32 @@
                         </div>
                         
                         <div class="p-6 flex flex-col flex-1">
-                            <span class="text-xs font-bold text-[#DC2626] uppercase tracking-wider mb-2">{product.category || 'Uncategorized'}</span>
-                            <h3 class="text-xl font-bold text-[#0F284F] mb-3 leading-tight">{product.name || 'Loading Name...'}</h3>
+                            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{product.category || 'Uncategorized'}</span>
+                            <h3 class="text-xl font-bold text-[#0F284F] mb-4 leading-tight">{product.name || 'Loading Name...'}</h3>
                             
-                            <p class="text-slate-600 text-sm mb-6 flex-1 line-clamp-3" title={product.specs}>
-                                {product.specs || 'Specifications available on inquiry.'}
-                            </p>
+                            <!-- 2. Neatly Arranged Specs List -->
+                            <div class="mb-8 flex-1">
+                                {#each formatSpecs(product.specs) as spec}
+                                    <div class="flex items-start mb-2">
+                                        <svg class="w-5 h-5 text-[#25D366] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm text-slate-600 leading-snug">{spec}</span>
+                                    </div>
+                                {/each}
+                                {#if !product.specs}
+                                    <p class="text-sm text-slate-400 italic">Specifications available on inquiry.</p>
+                                {/if}
+                            </div>
                             
+                            <!-- 3. Friendly WhatsApp Green Button -->
                             <a 
                                 href={getWhatsAppLink(product.name)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="w-full bg-[#DC2626] hover:bg-[#b91c1c] text-white text-center font-bold py-3 px-4 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2"
+                                class="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white text-center font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 mt-auto"
                             >
-                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
                                 Enquire on WhatsApp
                             </a>
                         </div>
