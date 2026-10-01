@@ -33,7 +33,8 @@
     <!-- Modal Card -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
     <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+    <!-- Added tabindex="-1" here to fix the accessibility warning -->
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200" onclick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" tabindex="-1">
         
         <!-- Header -->
         <div class="bg-[#1E3A8A] p-5 text-white flex justify-between items-center">
