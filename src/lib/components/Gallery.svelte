@@ -35,7 +35,7 @@
     ];
 </script>
 
-<section id="gallery" class="py-16 sm:py-24 bg-slate-50">
+<section id="gallery" class="pt-8 pb-16 sm:pt-10 sm:pb-24 bg-white border-t border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
         <div class="text-center mb-12 sm:mb-16">

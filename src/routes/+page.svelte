@@ -1,18 +1,13 @@
 <script lang="ts">
-    // 1. Your global state and Svelte utilities
     import { isBookingOpen, isHeaderButtonVisible } from '$lib/store';
     import { onMount } from 'svelte';
     
-    // 2. Restore your missing component imports!
-    import Header from '$lib/components/Header.svelte';
     import Services from '$lib/components/Services.svelte';
     import Brands from '$lib/components/Brands.svelte';
     import Reviews from '$lib/components/Reviews.svelte';
     import Map from '$lib/components/Map.svelte';
     import Footer from '$lib/components/Footer.svelte';
-    import FloatingWhatsApp from '$lib/components/FloatingWhatsApp.svelte';
 
-    // 3. The scroll-tracking logic for the new button
     let heroButtonElement: HTMLElement;
 
     onMount(() => {
@@ -37,8 +32,6 @@
     });
 </script>
 
-<Header />
-
 <main class="w-full bg-white">
     <!-- Image Background Hero Section -->
     <section class="relative py-24 sm:py-32 px-4 overflow-hidden border-t border-slate-200">
@@ -61,8 +54,6 @@
     <Brands />
     <Reviews />
     <Map />
-    </main>
+</main>
 
 <Footer />
-<!-- Place the floating button at the very bottom so it doesn't interrupt page flow -->
-<FloatingWhatsApp />
