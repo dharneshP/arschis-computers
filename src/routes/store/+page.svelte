@@ -61,7 +61,7 @@
                 src="/logo.png" 
                 alt="Arschis Computers Logo" 
                 class="h-20 md:h-24 mx-auto mb-6 object-contain"
-                onerror="this.style.display='none'"
+                onerror={(e) => e.currentTarget.style.display = 'none'}
             />
             <h1 class="text-4xl md:text-5xl font-extrabold text-[#0F284F] mb-4">Our Store</h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
