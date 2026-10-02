@@ -14,6 +14,9 @@
     import Seo from '$lib/components/Seo.svelte';
     import BusinessStructuredData from '$lib/components/BusinessStructuredData.svelte';
     import { phoneUrl } from '$lib/contact';
+    import type { PageProps } from './$types';
+
+    let { data }: PageProps = $props();
 
     let heroButtonElement: HTMLElement;
 
@@ -103,7 +106,7 @@
     <Services />
     <WhyArschis />
     <ServiceProcess />
-    <ProductPreview />
+    <ProductPreview productData={data.productData} />
     <OurWorkPreview />
     <Reviews />
     <Map />

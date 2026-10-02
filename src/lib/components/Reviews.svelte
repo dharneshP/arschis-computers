@@ -1,17 +1,17 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { getGoogleReviewData, type GoogleReview } from '$lib/google-reviews';
+    import { getGoogleReviewData, type GoogleReview, type GoogleReviewLoadStatus } from '$lib/google-reviews';
     import { googleMapsUrl } from '$lib/location';
 
     let reviews: GoogleReview[] = $state([]);
     let reviewsUrl = $state(googleMapsUrl);
-    let loading = $state(true);
+    let status: GoogleReviewLoadStatus | 'loading' = $state('loading');
 
     onMount(async () => {
         const data = await getGoogleReviewData();
         reviews = data.reviews.filter((review) => review.rating >= 4 && review.text).slice(0, 3);
         reviewsUrl = data.googleMapsUrl || googleMapsUrl;
-        loading = false;
+        status = reviews.length ? 'success' : data.status === 'error' ? 'error' : 'empty';
     });
 
     function formatDate(unixTime: number) {
@@ -30,8 +30,18 @@
             <p class="mt-2 text-slate-600">Recent feedback provided through Google.</p>
         </div>
 
-        {#if loading}
-            <p class="min-h-[18rem] py-10 text-center text-slate-600" aria-live="polite">Loading Google reviews…</p>
+        {#if status === 'loading'}
+            <div class="grid min-h-[18rem] gap-5 md:grid-cols-3" aria-live="polite" aria-label="Loading customer reviews">
+                {#each Array(3) as _}
+                    <div class="animate-pulse rounded-xl border border-slate-200 bg-white p-6" aria-hidden="true">
+                        <div class="h-5 w-2/5 rounded bg-slate-200"></div>
+                        <div class="mt-5 h-4 rounded bg-slate-200"></div>
+                        <div class="mt-3 h-4 rounded bg-slate-200"></div>
+                        <div class="mt-3 h-4 w-3/4 rounded bg-slate-200"></div>
+                    </div>
+                {/each}
+                <span class="sr-only">Loading customer reviews…</span>
+            </div>
         {:else if reviews.length}
             <div class="grid gap-5 md:grid-cols-3">
                 {#each reviews as review}
@@ -50,8 +60,9 @@
                 {/each}
             </div>
         {:else}
-            <div class="rounded-xl border border-slate-200 bg-white p-8 text-center">
-                <p class="text-slate-600">Customer reviews are available on Google Maps.</p>
+            <div class="flex min-h-[18rem] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-8 text-center" role="status">
+                <p class="font-bold text-[#0B1F3A]">See what our customers say on Google</p>
+                <p class="mt-2 text-slate-600">Visit Google Maps for current customer feedback.</p>
                 <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center font-bold text-[#D92323] hover:underline">View Our Google Reviews</a>
             </div>
         {/if}

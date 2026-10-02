@@ -41,14 +41,15 @@
                 <a href="/#contact" class="text-slate-700 hover:text-[#DC2626] font-semibold transition-colors">Contact</a>
                 
                 <!-- Dedicated WhatsApp Navigation CTA -->
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-[#168a43] hover:text-green-700 transition-colors font-bold whitespace-nowrap">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-[#087A35] hover:text-[#06662D] transition-colors font-bold whitespace-nowrap">
                     <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp Us
                 </a>
                 
                 <!-- Desktop Autohide Book Button -->
-                <div class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0 pointer-events-none' }">
+                <div aria-hidden={!$isHeaderButtonVisible} class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[200px] opacity-100' : 'max-w-0 opacity-0 pointer-events-none' }">
                     <button 
                         onclick={() => $isBookingOpen = true}
+                        tabindex={$isHeaderButtonVisible ? 0 : -1}
                         class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-5 py-2.5 text-sm rounded-xl font-bold shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 whitespace-nowrap ml-2"
                     >
                         Book a Service
@@ -60,9 +61,10 @@
             <div class="lg:hidden flex items-center shrink-0">
                 
                 <!-- Mobile Autohide Book Button -->
-                <div class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[100px] mr-3 opacity-100' : 'max-w-0 mr-0 opacity-0 pointer-events-none' }">
+                <div aria-hidden={!$isHeaderButtonVisible} class="overflow-hidden flex items-center transition-all duration-300 ease-in-out { $isHeaderButtonVisible ? 'max-w-[100px] mr-3 opacity-100' : 'max-w-0 mr-0 opacity-0 pointer-events-none' }">
                     <button 
                         onclick={() => $isBookingOpen = true}
+                        tabindex={$isHeaderButtonVisible ? 0 : -1}
                         class="bg-[#DC2626] hover:bg-[#b91c1c] text-white px-4 py-2 text-sm rounded-lg font-bold shadow-md transition-colors whitespace-nowrap"
                     >
                         Book
@@ -101,7 +103,7 @@
                         target="_blank"
                         rel="noopener noreferrer"
                         onclick={() => isMobileMenuOpen = false}
-                        class="w-full text-center border-2 border-[#25D366] text-[#25D366] hover:bg-[#25D366] hover:text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+                        class="w-full text-center border-2 border-[#087A35] text-[#087A35] hover:bg-[#087A35] hover:text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
                     >
                         <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp Us
                     </a>

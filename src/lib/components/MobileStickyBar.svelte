@@ -8,7 +8,7 @@
     <a href={phoneUrl} aria-label="Call Arschis Computers" class="flex min-h-14 flex-1 items-center justify-center gap-2 border-r border-white/15 bg-[#0B1F3A] px-3 text-center font-bold text-white transition-colors active:bg-[#071426] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white">
         <i class="fa-solid fa-phone" aria-hidden="true"></i> Call
     </a>
-    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Message Arschis Computers on WhatsApp" class="flex min-h-14 flex-1 items-center justify-center gap-2 bg-[#25D366] px-3 text-center font-bold text-white transition-colors active:bg-green-700 focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#071426]">
+    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" aria-label="Message Arschis Computers on WhatsApp" class="flex min-h-14 flex-1 items-center justify-center gap-2 bg-[#087A35] px-3 text-center font-bold text-white transition-colors active:bg-[#06662D] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white">
         <i class="fa-brands fa-whatsapp text-xl" aria-hidden="true"></i> WhatsApp
     </a>
 </nav>

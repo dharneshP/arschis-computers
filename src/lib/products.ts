@@ -1,4 +1,3 @@
-import { createClient } from '@sanity/client';
 import { getWhatsAppUrl } from '$lib/contact';
 
 export interface Product {
@@ -9,14 +8,14 @@ export interface Product {
 	image?: string;
 }
 
-export const productCategories = ['All', 'Branded Desktops', 'PC Cabinets', 'PC Components'];
+export type ProductLoadStatus = 'success' | 'empty' | 'error';
 
-export const productClient = createClient({
-	projectId: 'aetlx2e6',
-	dataset: 'production',
-	useCdn: true,
-	apiVersion: '2024-01-01'
-});
+export interface ProductLoadResult {
+	products: Product[];
+	status: ProductLoadStatus;
+}
+
+export const productCategories = ['All', 'Branded Desktops', 'PC Cabinets', 'PC Components'];
 
 export const allProductsQuery = `*[_type == "product"] | order(_createdAt desc){
 	_id, name, category, specs, "image": image.asset->url

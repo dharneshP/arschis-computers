@@ -1,37 +1,24 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
     import {
-        allProductsQuery,
         formatProductSpecs,
         getProductQuoteUrl,
         productCategories,
-        productClient,
         getOptimizedProductImage,
-        type Product
     } from '$lib/products';
     import Seo from '$lib/components/Seo.svelte';
+    import Footer from '$lib/components/Footer.svelte';
+    import { getWhatsAppUrl, phoneUrl } from '$lib/contact';
+    import type { PageProps } from './$types';
 
-    let products: Product[] = $state([]);
-    let isLoading = $state(true);
+    let { data }: PageProps = $props();
     let activeCategory = $state('All');
 
     const categories = productCategories;
 
-    onMount(async () => {
-        try {
-            products = await productClient.fetch<Product[]>(allProductsQuery);
-        } catch (error) {
-            console.error("Failed to load products from Sanity:", error);
-            products = [];
-        } finally {
-            isLoading = false;
-        }
-    });
-
     let filteredProducts = $derived(
         activeCategory === 'All' 
-            ? products 
-            : products.filter((product) => product.category === activeCategory)
+            ? data.productData.products
+            : data.productData.products.filter((product) => product.category === activeCategory)
     );
 
 </script>
@@ -42,7 +29,7 @@
     path="/store"
 />
 
-<div class="min-h-screen bg-slate-50 py-12">
+<main class="min-h-screen bg-slate-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-12">
@@ -68,12 +55,7 @@
             {/each}
         </div>
 
-        {#if isLoading}
-            <div class="flex flex-col items-center justify-center py-20 space-y-4">
-                <div class="animate-spin rounded-full h-12 w-12 border-4 border-slate-200 border-t-[#0F284F]"></div>
-                <p class="text-slate-500 font-medium animate-pulse">Loading latest inventory...</p>
-            </div>
-        {:else}
+        {#if data.productData.status === 'success'}
             <!-- Product Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {#each filteredProducts as product}
@@ -96,7 +78,7 @@
                         
                         <div class="p-6 flex flex-col flex-1">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{product.category || 'Uncategorized'}</span>
-                            <h3 class="text-xl font-bold text-[#0F284F] mb-4 leading-tight">{product.name || 'Loading Name...'}</h3>
+                            <h2 class="text-xl font-bold text-[#0F284F] mb-4 leading-tight">{product.name || 'Product enquiry'}</h2>
                             
                             <!-- 2. Neatly Arranged Specs List -->
                             <div class="mb-8 flex-1">
@@ -118,7 +100,8 @@
                                 href={getProductQuoteUrl(product.name)}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white text-center font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 mt-auto"
+                                aria-label={`Get a quote for ${product.name || 'this product'} on WhatsApp`}
+                                class="w-full bg-[#087A35] hover:bg-[#06662D] text-white text-center font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 mt-auto"
                             >
                                 <i class="fa-brands fa-whatsapp text-xl"></i>
                                 Get a Quote
@@ -131,10 +114,30 @@
             {#if filteredProducts.length === 0}
                 <div class="text-center py-20">
                     <i class="fa-solid fa-box-open text-6xl text-slate-300 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-[#0F284F]">More stock arriving soon!</h3>
-                    <p class="text-slate-500 mt-2">We are currently updating our inventory for {activeCategory}.</p>
+                    <h2 class="text-2xl font-bold text-[#0F284F]">No products in this category right now</h2>
+                    <p class="text-slate-500 mt-2">Contact us for current {activeCategory} availability.</p>
+                    <a href={getWhatsAppUrl(`Hi Arschis Computers, please share your current ${activeCategory} availability.`)} target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex min-h-12 items-center justify-center rounded-lg bg-[#087A35] px-5 py-3 font-bold text-white hover:bg-[#06662D]">
+                        <i class="fa-brands fa-whatsapp mr-2" aria-hidden="true"></i> Ask on WhatsApp
+                    </a>
                 </div>
             {/if}
+        {:else}
+            <div class="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm" role="status">
+                <i class="fa-solid fa-box-open text-5xl text-slate-300" aria-hidden="true"></i>
+                <h2 class="mt-4 text-2xl font-bold text-[#0F284F]">
+                    {data.productData.status === 'empty' ? 'Product information is currently being updated' : 'Products are temporarily unavailable online'}
+                </h2>
+                <p class="mx-auto mt-3 max-w-xl text-slate-600">Contact Arschis Computers for current availability and a direct quote.</p>
+                <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+                    <a href={getWhatsAppUrl('Hi Arschis Computers, please share your current product availability.')} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#087A35] px-5 py-3 font-bold text-white hover:bg-[#06662D]">
+                        <i class="fa-brands fa-whatsapp mr-2" aria-hidden="true"></i> WhatsApp
+                    </a>
+                    <a href={phoneUrl} class="inline-flex min-h-12 items-center justify-center rounded-lg bg-[#0B1F3A] px-5 py-3 font-bold text-white hover:bg-[#071426]">
+                        <i class="fa-solid fa-phone mr-2" aria-hidden="true"></i> Call Now
+                    </a>
+                </div>
+            </div>
         {/if}
     </div>
-</div>
+</main>
+<Footer />

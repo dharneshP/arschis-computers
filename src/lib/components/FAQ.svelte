@@ -37,16 +37,19 @@
             {#each faqs as faq, i}
                 <div class="border border-slate-200 rounded-xl overflow-hidden bg-slate-50 transition-all duration-300">
                     <button 
-                        class="w-full px-6 py-5 flex justify-between items-center text-left focus:outline-none hover:bg-slate-100 transition-colors"
+                        id="faq-question-{i}"
+                        class="w-full px-6 py-5 flex justify-between items-center text-left hover:bg-slate-100 transition-colors"
                         onclick={() => activeIndex = activeIndex === i ? -1 : i}
+                        aria-expanded={activeIndex === i}
+                        aria-controls="faq-answer-{i}"
                     >
                         <span class="font-bold text-slate-800 sm:text-lg">{faq.q}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 {activeIndex === i ? 'rotate-180' : ''}"></i>
+                        <i class="fa-solid fa-chevron-down text-slate-400 transition-transform duration-300 {activeIndex === i ? 'rotate-180' : ''}" aria-hidden="true"></i>
                     </button>
                     
                     {#if activeIndex === i}
                         <!-- 3. Add transition:slide here for a butter-smooth open/close effect -->
-                        <div transition:slide={{ duration: 300 }} class="px-6 pb-5 text-slate-600">
+                        <div id="faq-answer-{i}" role="region" aria-labelledby="faq-question-{i}" transition:slide={{ duration: 300 }} class="px-6 pb-5 text-slate-600">
                             {faq.a}
                         </div>
                     {/if}

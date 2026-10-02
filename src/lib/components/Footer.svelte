@@ -31,7 +31,7 @@
             <a href={phoneUrl} class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg mb-4 transition-all shadow-md">
                 <i class="fa-solid fa-phone mr-2"></i> Call Now
             </a>
-            <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-[#25D366] text-white hover:bg-green-600 font-bold py-4 rounded-lg mb-4 transition-all shadow-md">
+            <a href={getWhatsAppUrl()} target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-[#087A35] text-white hover:bg-[#06662D] font-bold py-4 rounded-lg mb-4 transition-all shadow-md">
                 <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Message on WhatsApp
             </a>
             
