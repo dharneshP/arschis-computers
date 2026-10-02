@@ -1,3 +1,7 @@
+<script lang="ts">
+    import { businessPhone, phoneUrl, secondaryBusinessPhone, secondaryPhoneUrl } from '$lib/contact';
+</script>
+
 <footer class="bg-[#0F172A] text-slate-300 pt-16 pb-28 md:pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- 1 column on mobile, 3 columns on desktop -->
@@ -14,6 +18,14 @@
                             Brough Road, Fort<br />
                             Erode - 638001
                         </span>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-[#DC2626]"></i>
+                        <a href={phoneUrl} class="text-sm hover:text-white transition-colors">{businessPhone}</a>
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-phone text-[#DC2626]"></i>
+                        <a href={secondaryPhoneUrl} class="text-sm hover:text-white transition-colors">{secondaryBusinessPhone}</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fa-solid fa-clock text-[#DC2626]"></i>
