@@ -2,15 +2,14 @@
     // SvelteKit's built-in store to check the error status (like 404)
     import { page } from '$app/stores';
     
-    import Header from '$lib/components/Header.svelte';
     import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <svelte:head>
     <title>Page Not Found | Arschis Computers</title>
+    <meta name="description" content="The requested page could not be found on the Arschis Computers website." />
+    <meta name="robots" content="noindex,follow" />
 </svelte:head>
-
-<Header />
 
 <!-- Full screen flexbox layout perfectly centers the error card -->
 <main class="min-h-screen bg-slate-50 flex flex-col items-center justify-center px-4 pt-20 pb-12 text-center">
@@ -45,6 +44,11 @@
             <i class="fa-solid fa-house mr-3 group-hover:-translate-x-1 transition-transform"></i>
             Return to Homepage
         </a>
+
+        <nav aria-label="Error page links" class="mt-5 flex flex-wrap justify-center gap-4 text-sm font-bold">
+            <a href="/#services" class="text-[#0B1F3A] hover:underline">View Services</a>
+            <a href="/#contact" class="text-[#0B1F3A] hover:underline">Contact Us</a>
+        </nav>
         
     </div>
     

@@ -6,8 +6,10 @@
         getProductQuoteUrl,
         productCategories,
         productClient,
+        getOptimizedProductImage,
         type Product
     } from '$lib/products';
+    import Seo from '$lib/components/Seo.svelte';
 
     let products: Product[] = $state([]);
     let isLoading = $state(true);
@@ -34,6 +36,12 @@
 
 </script>
 
+<Seo
+    title="Computer Products | Arschis Computers"
+    description="Explore desktops, PC cabinets and computer components available from Arschis Computers in Erode, with direct quote enquiries."
+    path="/store"
+/>
+
 <div class="min-h-screen bg-slate-50 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -49,6 +57,7 @@
             {#each categories as category}
                 <button 
                     onclick={() => activeCategory = category}
+                    aria-pressed={activeCategory === category}
                     class="px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-200 shadow-sm 
                     {activeCategory === category 
                         ? 'bg-[#0F284F] text-white ring-2 ring-[#0F284F] ring-offset-2 ring-offset-slate-50' 
@@ -72,8 +81,14 @@
                         
                         <div class="h-64 bg-slate-100 p-4 relative overflow-hidden flex items-center justify-center">
                             <img 
-                                src={product.image || '/logo.png'} 
-                                alt={product.name || 'Product Image'} 
+                                src={getOptimizedProductImage(product.image, 720)}
+                                srcset={product.image ? `${getOptimizedProductImage(product.image, 480)} 480w, ${getOptimizedProductImage(product.image, 720)} 720w` : undefined}
+                                sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+                                alt={product.name || 'Arschis Computers product'}
+                                width="720"
+                                height="480"
+                                loading="lazy"
+                                decoding="async"
                                 class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
                                 onerror={(event) => ((event.currentTarget as HTMLImageElement).src = '/logo.png')}
                             />

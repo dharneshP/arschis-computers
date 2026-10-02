@@ -29,7 +29,7 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold text-slate-900 sm:text-4xl tracking-tight">Frequently Asked Questions</h2>
+            <h1 class="text-3xl font-extrabold text-slate-900 sm:text-4xl tracking-tight">Frequently Asked Questions</h1>
             <p class="mt-4 text-lg text-slate-600">Everything you need to know about our repair and installation services.</p>
         </div>
 

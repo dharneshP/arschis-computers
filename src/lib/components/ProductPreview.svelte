@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { featuredProductsQuery, getProductQuoteUrl, productClient, type Product } from '$lib/products';
+    import { featuredProductsQuery, getOptimizedProductImage, getProductQuoteUrl, productClient, type Product } from '$lib/products';
 
     let products: Product[] = $state([]);
     let loading = $state(true);
@@ -27,13 +27,23 @@
         </div>
 
         {#if loading}
-            <p class="py-12 text-center text-slate-600" aria-live="polite">Loading products…</p>
+            <p class="min-h-[18rem] py-12 text-center text-slate-600" aria-live="polite">Loading products…</p>
         {:else if products.length}
             <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
                 {#each products as product (product._id)}
                     <article class="flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div class="aspect-[4/3] bg-white p-3">
-                            <img src={product.image || '/logo.png'} alt={product.name || 'Arschis Computers product'} width="480" height="360" loading="lazy" class="h-full w-full object-contain" />
+                            <img
+                                src={getOptimizedProductImage(product.image, 480)}
+                                srcset={product.image ? `${getOptimizedProductImage(product.image, 320)} 320w, ${getOptimizedProductImage(product.image, 480)} 480w` : undefined}
+                                sizes="(min-width: 1024px) 25vw, 50vw"
+                                alt={product.name || 'Arschis Computers product'}
+                                width="480"
+                                height="360"
+                                loading="lazy"
+                                decoding="async"
+                                class="h-full w-full object-contain"
+                            />
                         </div>
                         <div class="flex flex-1 flex-col border-t border-slate-100 p-3 sm:p-4">
                             <span class="text-[0.65rem] font-bold uppercase tracking-wide text-slate-500 sm:text-xs">{product.category || 'Computer product'}</span>

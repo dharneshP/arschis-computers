@@ -11,6 +11,8 @@
     import Map from '$lib/components/Map.svelte';
     import PreFooterCTA from '$lib/components/PreFooterCTA.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import Seo from '$lib/components/Seo.svelte';
+    import BusinessStructuredData from '$lib/components/BusinessStructuredData.svelte';
     import { phoneUrl } from '$lib/contact';
 
     let heroButtonElement: HTMLElement;
@@ -37,9 +39,12 @@
     });
 </script>
 
-<svelte:head>
-    <title>Arschis Computers | Sales & Service in Erode</title>
-</svelte:head>
+<Seo
+    title="Arschis Computers | Computer Sales & Service in Erode"
+    description="Arschis Computers provides computer sales and service in Erode, including laptops, PCs, printers, networking, CCTV and IT support."
+    path="/"
+/>
+<BusinessStructuredData />
 
 <main class="w-full bg-white">
     <!-- Hero Section -->
@@ -47,10 +52,13 @@
         <!-- TODO: Replace this temporary stock image with /arschis-computers-erode-store.webp when a genuine storefront photo is available. -->
         <img
             src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80"
+            srcset="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1024&q=80 1024w, https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80 1920w"
+            sizes="100vw"
             alt=""
             width="1920"
             height="1280"
             fetchpriority="high"
+            decoding="async"
             class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
         />
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-[#071426]/90 via-[#0B1F3A]/80 to-[#071426]/65"></div>

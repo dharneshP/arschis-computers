@@ -31,7 +31,7 @@
         </div>
 
         {#if loading}
-            <p class="py-10 text-center text-slate-600" aria-live="polite">Loading Google reviews…</p>
+            <p class="min-h-[18rem] py-10 text-center text-slate-600" aria-live="polite">Loading Google reviews…</p>
         {:else if reviews.length}
             <div class="grid gap-5 md:grid-cols-3">
                 {#each reviews as review}

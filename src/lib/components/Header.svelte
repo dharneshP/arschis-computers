@@ -24,6 +24,9 @@
                     <img 
                         src="/logo.png" 
                         alt="Arschis Computers" 
+                        width="5853"
+                        height="2200"
+                        decoding="async"
                         class="h-12 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                     />
                 </a>

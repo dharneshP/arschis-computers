@@ -32,6 +32,16 @@ export function getProductQuoteUrl(productName?: string) {
 	);
 }
 
+export function getOptimizedProductImage(imageUrl: string | undefined, width: number) {
+	if (!imageUrl) return '/logo.png';
+
+	const url = new URL(imageUrl);
+	url.searchParams.set('w', String(width));
+	url.searchParams.set('fit', 'max');
+	url.searchParams.set('auto', 'format');
+	return url.href;
+}
+
 export function formatProductSpecs(specs = '') {
 	return specs.split(/\||,/).map((spec) => spec.trim()).filter(Boolean);
 }
