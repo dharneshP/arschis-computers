@@ -22,7 +22,7 @@ export interface GalleryLoadResult {
 	status: 'success' | 'empty' | 'error';
 }
 
-export const galleryCategories = ['All', 'PC & Laptop', 'Printer', 'Networking', 'CCTV', 'Shop'];
+export const galleryCategories = ['All', 'PC & Laptop', 'Printer', 'Networking', 'Shop', 'Other'];
 
 const imageProjection = `{
 	asset->{url, metadata {dimensions {width, height}}},

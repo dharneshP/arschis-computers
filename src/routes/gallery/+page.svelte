@@ -9,7 +9,7 @@
 
 <Seo
     title="Our Work | Arschis Computers"
-    description="The Arschis Computers gallery will feature genuine computer service, networking and CCTV project photos from Erode."
+    description="The Arschis Computers gallery features genuine computer service, networking and installation photos from Erode."
     path="/gallery"
     noindex={true}
 />

@@ -1,6 +1,6 @@
 import {defineField, defineType} from 'sanity'
 
-const categories = ['PC & Laptop', 'Printer', 'Networking', 'CCTV', 'Shop', 'Other']
+const categories = ['PC & Laptop', 'Printer', 'Networking', 'Shop', 'Other']
 
 export default defineType({
   name: 'galleryItem',

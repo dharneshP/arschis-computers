@@ -28,12 +28,6 @@
             booking: false
         },
         {
-            title: 'CCTV Solutions',
-            description: 'CCTV consultation, installation and maintenance.',
-            icon: 'fa-video',
-            booking: false
-        },
-        {
             title: 'IT Support & AMC',
             description: 'Ongoing IT support and maintenance for business systems.',
             icon: 'fa-headset',
@@ -53,7 +47,7 @@
             <h2 id="services-heading" class="text-3xl font-extrabold text-[#0B1F3A] sm:text-4xl">Computer & IT Services</h2>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
             {#each services as service}
                 <article class="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
                     <i class="fa-solid {service.icon} mb-3 text-2xl text-[#D92323] sm:text-3xl" aria-hidden="true"></i>

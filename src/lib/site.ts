@@ -24,6 +24,5 @@ export const serviceNames = [
 	'Computer Sales',
 	'Printer Sales & Service',
 	'Networking',
-	'CCTV Solutions',
 	'IT Support & AMC'
 ] as const;

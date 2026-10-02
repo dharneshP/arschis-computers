@@ -68,7 +68,6 @@
                     <li><a href="/store" class="hover:text-[#FFD700] transition-colors">Computer Sales</a></li>
                     <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Printer Sales & Service</a></li>
                     <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Networking</a></li>
-                    <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">CCTV Solutions</a></li>
                     <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">IT Support & AMC</a></li>
                 </ul>
             </div>

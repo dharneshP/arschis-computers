@@ -18,10 +18,6 @@
             q: "How long does a typical laptop repair take?",
             a: "Standard repairs like screen or battery replacements are usually completed within 24 hours. Complex chip-level motherboard repairs may take 2-3 days depending on the specific issue."
         },
-        {
-            q: "Do you offer on-site CCTV installation?",
-            a: "Yes, we provide complete on-site consultation, professional installation, and ongoing maintenance for both home and commercial CCTV security systems across Erode."
-        }
     ];
 </script>
 

@@ -14,7 +14,6 @@
         { label: 'PC / Laptop', icon: 'fa-solid fa-desktop' },
         { label: 'Printer', icon: 'fa-solid fa-print' },
         { label: 'Network', icon: 'fa-solid fa-network-wired' },
-        { label: 'CCTV', icon: 'fa-solid fa-video' },
         { label: 'Other', icon: 'fa-solid fa-screwdriver-wrench' }
     ];
 

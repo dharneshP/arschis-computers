@@ -44,7 +44,7 @@
 
 <Seo
     title="Arschis Computers | Computer Sales & Service in Erode"
-    description="Arschis Computers provides computer sales and service in Erode, including laptops, PCs, printers, networking, CCTV and IT support."
+    description="Arschis Computers provides computer sales and service in Erode, including laptops, PCs, printers, networking and IT support."
     path="/"
 />
 <BusinessStructuredData />
@@ -87,12 +87,11 @@
     <!-- Quick Service Strip -->
     <section class="border-b border-slate-200 bg-[#F5F7FA] py-4" aria-label="Quick services">
         <div class="mx-auto max-w-7xl">
-            <div class="scrollbar-hidden grid auto-cols-[8.5rem] grid-flow-col gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory md:grid-flow-row md:grid-cols-4 md:overflow-visible md:px-6 md:pb-0 lg:px-8">
+            <div class="scrollbar-hidden grid auto-cols-[8.5rem] grid-flow-col gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory md:grid-flow-row md:grid-cols-3 md:overflow-visible md:px-6 md:pb-0 lg:px-8">
                 {#each [
                     { name: 'PC', icon: 'fa-desktop' },
                     { name: 'Printer', icon: 'fa-print' },
                     { name: 'Networking', icon: 'fa-network-wired' },
-                    { name: 'CCTV', icon: 'fa-video' }
                 ] as service}
                     <a href="#services" class="group flex min-h-20 snap-start items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 font-bold text-[#172033] transition-colors hover:border-[#D92323] hover:text-[#D92323] focus-visible:outline-[#D92323]">
                         <i class="fa-solid {service.icon} text-xl text-[#0B1F3A] transition-colors group-hover:text-[#D92323]" aria-hidden="true"></i>

@@ -19,7 +19,7 @@ export const services = {
         id: 'network',
         title: 'Networking & Power',
         icon: 'fa-network-wired',
-        details: 'Complete D-Link networking setups, CCTV installation, and UPS power backups (Numeric, V-Guard).',
+        details: 'Complete D-Link networking setups and UPS power backups (Numeric, V-Guard).',
         turnaround: 'Scheduled Site Visit or Same Day in-store',
         pricing: 'Custom quote provided based on requirements'
     }

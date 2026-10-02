@@ -34,7 +34,7 @@
         <div class="mb-10 text-center">
             <i class="fa-solid fa-images mb-5 text-4xl text-[#D92323]" aria-hidden="true"></i>
             <h1 id="gallery-heading" class="text-3xl font-extrabold tracking-tight text-[#0B1F3A] sm:text-4xl">Our Work Gallery</h1>
-            <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">Genuine computer sales, service, networking and CCTV work from Arschis Computers.</p>
+            <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">Genuine computer sales, service, networking and installation work from Arschis Computers.</p>
         </div>
 
         {#if data.status === 'error'}

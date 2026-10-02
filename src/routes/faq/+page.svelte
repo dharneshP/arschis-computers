@@ -6,7 +6,7 @@
 
 <Seo
     title="Computer Service FAQs | Arschis Computers"
-    description="Answers to common questions about computer repairs, replacement parts, service times and CCTV support from Arschis Computers."
+    description="Answers to common questions about computer repairs, replacement parts and service times from Arschis Computers."
     path="/faq"
 />
 
