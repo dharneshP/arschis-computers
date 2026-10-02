@@ -1,31 +1,23 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { createClient } from '@sanity/client';
+    import {
+        allProductsQuery,
+        formatProductSpecs,
+        getProductQuoteUrl,
+        productCategories,
+        productClient,
+        type Product
+    } from '$lib/products';
 
-    let products: any[] = $state([]);
+    let products: Product[] = $state([]);
     let isLoading = $state(true);
     let activeCategory = $state('All');
 
-    const categories = ['All', 'Branded Desktops', 'PC Cabinets', 'PC Components'];
-    const whatsappNumber = "919944252527"; 
-
-    const client = createClient({
-        projectId: 'aetlx2e6',
-        dataset: 'production',
-        useCdn: true, 
-        apiVersion: '2024-01-01' 
-    });
+    const categories = productCategories;
 
     onMount(async () => {
         try {
-            const query = `*[_type == "product"]{
-                name, 
-                category, 
-                specs, 
-                "image": image.asset->url
-            }`;
-            
-            products = await client.fetch(query);
+            products = await productClient.fetch<Product[]>(allProductsQuery);
         } catch (error) {
             console.error("Failed to load products from Sanity:", error);
             products = [];
@@ -37,19 +29,9 @@
     let filteredProducts = $derived(
         activeCategory === 'All' 
             ? products 
-            : products.filter((p: any) => p.category === activeCategory)
+            : products.filter((product) => product.category === activeCategory)
     );
 
-    // HELPER: Turns "Intel i3 | 8GB RAM" into a neat array for list rendering
-    function formatSpecs(specsString: string) {
-        if (!specsString) return [];
-        return specsString.split(/\||,/).map(s => s.trim()).filter(s => s.length > 0);
-    }
-
-    function getWhatsAppLink(productName: string) {
-        const message = encodeURIComponent(`Hi Arschis Computers, I am interested in the ${productName || 'product'}. Could you share the price and availability?`);
-        return `https://wa.me/${whatsappNumber}?text=${message}`;
-    }
 </script>
 
 <div class="min-h-screen bg-slate-50 py-12">
@@ -93,7 +75,7 @@
                                 src={product.image || '/logo.png'} 
                                 alt={product.name || 'Product Image'} 
                                 class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
-                                onerror={(e) => e.currentTarget.src = '/logo.png'}
+                                onerror={(event) => ((event.currentTarget as HTMLImageElement).src = '/logo.png')}
                             />
                         </div>
                         
@@ -103,7 +85,7 @@
                             
                             <!-- 2. Neatly Arranged Specs List -->
                             <div class="mb-8 flex-1">
-                                {#each formatSpecs(product.specs) as spec}
+                                {#each formatProductSpecs(product.specs) as spec}
                                     <div class="flex items-start mb-2">
                                         <svg class="w-5 h-5 text-[#25D366] mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -118,13 +100,13 @@
                             
                             <!-- 3. Friendly WhatsApp Green Button -->
                             <a 
-                                href={getWhatsAppLink(product.name)}
+                                href={getProductQuoteUrl(product.name)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 class="w-full bg-[#25D366] hover:bg-[#1EBE5D] text-white text-center font-bold py-3.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 mt-auto"
                             >
                                 <i class="fa-brands fa-whatsapp text-xl"></i>
-                                Enquire on WhatsApp
+                                Get a Quote
                             </a>
                         </div>
                     </div>

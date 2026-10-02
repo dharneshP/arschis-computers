@@ -1,17 +1,16 @@
 <script lang="ts">
-    // This directly opens the WhatsApp app or web interface with a pre-filled message!
-    const whatsappNumber = "919944252527"; 
-    const message = "Hi Arschis Computers, I need help with my device. Can I book a service?";
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    import { getWhatsAppUrl } from '$lib/contact';
+
+    const whatsappUrl = getWhatsAppUrl();
 </script>
 
 <!-- The widget container fixed to the bottom right -->
-<div class="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-50">
+<div class="fixed bottom-8 right-8 z-50 hidden md:block">
     <a 
         href={whatsappUrl} 
         target="_blank" 
         rel="noopener noreferrer" 
-        class="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1 group"
+        class="relative flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg transition-transform hover:-translate-y-1 hover:shadow-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0B1F3A]"
         aria-label="Chat with us on WhatsApp"
     >
         <!-- The subtle pulsing radar effect -->

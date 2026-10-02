@@ -3,20 +3,20 @@
     import BookingModal from '$lib/components/BookingModal.svelte'; 
     import Header from '$lib/components/Header.svelte'; 
     import FloatingWhatsApp from '$lib/components/FloatingWhatsApp.svelte';
+    import MobileStickyBar from '$lib/components/MobileStickyBar.svelte';
 
     let { children } = $props();
 </script>
 
-<svelte:head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</svelte:head>
-
 <!-- Global Header -->
 <Header />
 
-<!-- Renders the Home or Store page content -->
-{@render children()}
+<!-- Leave room for the mobile-only contact bar, including device safe areas. -->
+<div class="pb-[calc(3.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    {@render children()}
+</div>
 
 <!-- Global Modal -->
 <BookingModal />
 <FloatingWhatsApp />
+<MobileStickyBar />

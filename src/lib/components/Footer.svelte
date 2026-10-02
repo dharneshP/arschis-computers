@@ -9,6 +9,15 @@
             <p class="mb-4 flex items-center justify-center md:justify-start">
                 <i class="fa-solid fa-clock text-red-500 mr-3 shrink-0"></i> Open Daily: 10:00 AM - 9:00 PM
             </p>
+
+            <!-- Email Information Added Here -->
+            <p class="mb-4 flex items-center justify-center md:justify-start">
+                <i class="fa-solid fa-envelope text-red-500 mr-3 shrink-0"></i>
+                <a href="mailto:arschiscomputers@gmail.com" class="hover:text-white transition-colors">
+                    arschiscomputers@gmail.com
+                </a>
+            </p>
+
             <p class="text-sm text-slate-400 mt-8 font-bold">Prop: A.P. Vasanthakumar B.Sc., DECE. | 20 Years Experience</p>
         </div>
         
@@ -17,8 +26,13 @@
             <a href="tel:+919944252527" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-lg mb-4 transition-all shadow-md">
                 <i class="fa-solid fa-phone mr-2"></i> Call Now
             </a>
-            <a href="https://wa.me/919944252527" target="_blank" class="block w-full text-center bg-[#25D366] text-white hover:bg-green-600 font-bold py-4 rounded-lg transition-all shadow-md">
+            <a href="https://wa.me/919944252527" target="_blank" class="block w-full text-center bg-[#25D366] text-white hover:bg-green-600 font-bold py-4 rounded-lg mb-4 transition-all shadow-md">
                 <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Message on WhatsApp
+            </a>
+            
+            <!-- Email Button Added Here -->
+            <a href="mailto:arschiscomputers@gmail.com" class="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white font-bold py-4 rounded-lg transition-all shadow-md">
+                <i class="fa-solid fa-envelope mr-2"></i> Email Us
             </a>
         </div>
     </div>

@@ -1,73 +1,76 @@
 <script lang="ts">
-    import { services } from '$lib/data/services';
-    
-    // This single variable controls the entire modal!
-    let selectedService: any = $state(null); 
+    import { getWhatsAppUrl } from '$lib/contact';
+    import { isBookingOpen } from '$lib/store';
+
+    const services = [
+        {
+            title: 'Laptop & PC Service',
+            description: 'Diagnostics, repairs, OS installation and performance upgrades.',
+            icon: 'fa-laptop-medical',
+            booking: true
+        },
+        {
+            title: 'Computer Sales',
+            description: 'Desktops, components and systems matched to your requirements.',
+            icon: 'fa-computer',
+            booking: false
+        },
+        {
+            title: 'Printer Sales & Service',
+            description: 'Printer supply, maintenance, ink and toner support.',
+            icon: 'fa-print',
+            booking: false
+        },
+        {
+            title: 'Networking',
+            description: 'Reliable wired and wireless network setup and support.',
+            icon: 'fa-network-wired',
+            booking: false
+        },
+        {
+            title: 'CCTV Solutions',
+            description: 'CCTV consultation, installation and maintenance.',
+            icon: 'fa-video',
+            booking: false
+        },
+        {
+            title: 'IT Support & AMC',
+            description: 'Ongoing IT support and maintenance for business systems.',
+            icon: 'fa-headset',
+            booking: false
+        }
+    ];
+
+    function quoteUrl(service: string) {
+        return getWhatsAppUrl(`Hi Arschis Computers, I would like a quote for ${service}.`);
+    }
 </script>
 
-<section id="services" class="py-16 px-4 max-w-7xl mx-auto">
-    <div class="text-center mb-12">
-        <h3 class="text-3xl font-bold text-slate-900">Our Services</h3>
-        <div class="w-24 h-1 bg-[#DC2626] mx-auto mt-4 rounded-full"></div>
-        <p class="text-sm text-slate-500 mt-4">Click any service to see pricing and turnaround times.</p>
-    </div>
+<section id="services" class="scroll-mt-20 bg-white px-3 py-14 sm:px-6 sm:py-20" aria-labelledby="services-heading">
+    <div class="mx-auto max-w-7xl">
+        <div class="mx-auto mb-9 max-w-2xl text-center sm:mb-12">
+            <p class="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-[#D92323]">Sales, service and support</p>
+            <h2 id="services-heading" class="text-3xl font-extrabold text-[#0B1F3A] sm:text-4xl">Computer & IT Services</h2>
+        </div>
 
-    <!-- Service Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-        {#each Object.values(services) as service}
-            <!-- svelte-ignore a11y_click_events_have_key_events -->
-            <!-- svelte-ignore a11y_no_static_element_interactions -->
-            <div 
-                onclick={() => selectedService = service} 
-                class="bg-white p-8 sm:p-10 rounded-xl shadow-sm border border-slate-100 text-center hover:shadow-md hover:border-[#DC2626] transition group cursor-pointer"
-            >
-                <i class="fa-solid {service.icon} text-5xl text-[#DC2626] mb-5 group-hover:scale-110 transition-transform"></i>
-                <h4 class="text-xl font-bold text-[#1E3A8A] mb-3">{service.title}</h4>
-                <p class="text-slate-500 text-sm leading-relaxed">{service.details}</p>
-            </div>
-        {/each}
-    </div>
-</section>
+        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3">
+            {#each services as service}
+                <article class="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+                    <i class="fa-solid {service.icon} mb-3 text-2xl text-[#D92323] sm:text-3xl" aria-hidden="true"></i>
+                    <h3 class="text-base font-bold leading-tight text-[#0B1F3A] sm:text-xl">{service.title}</h3>
+                    <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 sm:text-sm">{service.description}</p>
 
-<!-- The Svelte Modal -->
-{#if selectedService}
-    <!-- svelte-ignore a11y_click_events_have_key_events -->
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
-    <div 
-        class="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm"
-        onclick={() => selectedService = null}
-    >
-        <div class="bg-white rounded-2xl w-full max-w-md mx-4 relative shadow-2xl overflow-hidden" onclick={(e) => e.stopPropagation()}>
-            <button onclick={() => selectedService = null} class="absolute top-4 right-5 text-slate-400 hover:text-[#DC2626] text-3xl font-bold transition z-10">&times;</button>
-            
-            <div class="bg-slate-50 p-6 text-center border-b border-slate-200">
-                <i class="fa-solid {selectedService.icon} text-4xl text-[#DC2626] mb-3"></i>
-                <h3 class="text-2xl font-bold text-[#1E3A8A]">{selectedService.title}</h3>
-            </div>
-            
-            <div class="p-8 space-y-4">
-                <p class="text-slate-600 text-sm border-b border-slate-100 pb-4">{selectedService.details}</p>
-                
-                <div class="flex items-start mt-4">
-                    <i class="fa-solid fa-clock text-[#DC2626] mt-1 mr-3 w-5 text-center"></i>
-                    <div>
-                        <h5 class="font-bold text-sm text-[#1E3A8A]">Turnaround Time</h5>
-                        <p class="text-xs text-slate-600">{selectedService.turnaround}</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start">
-                    <i class="fa-solid fa-indian-rupee-sign text-[#DC2626] mt-1 mr-3 w-5 text-center"></i>
-                    <div>
-                        <h5 class="font-bold text-sm text-[#1E3A8A]">Pricing</h5>
-                        <p class="text-xs text-slate-600">{selectedService.pricing}</p>
-                    </div>
-                </div>
-                
-                <a href="https://wa.me/919944252527" target="_blank" class="block w-full text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all shadow-md mt-6 text-sm">
-                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Message to Book
-                </a>
-            </div>
+                    {#if service.booking}
+                        <button onclick={() => $isBookingOpen = true} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#D92323] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-red-700 sm:text-sm">
+                            Book a Service
+                        </button>
+                    {:else}
+                        <a href={quoteUrl(service.title)} target="_blank" rel="noopener noreferrer" aria-label={`Get a quote for ${service.title} on WhatsApp`} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#D92323] px-3 py-2 text-xs font-bold text-[#D92323] transition-colors hover:bg-red-50 sm:text-sm">
+                            Get a Quote
+                        </a>
+                    {/if}
+                </article>
+            {/each}
         </div>
     </div>
-{/if}
+</section>

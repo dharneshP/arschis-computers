@@ -1,1 +1,31 @@
 @import "tailwindcss";
+
+:root {
+	--color-brand-navy: #0b1f3a;
+	--color-brand-navy-dark: #071426;
+	--color-brand-red: #d92323;
+	--color-brand-yellow: #f5c400;
+	--color-brand-neutral: #f5f7fa;
+	--color-brand-text: #172033;
+}
+
+html {
+	overflow-x: clip;
+}
+
+body {
+	color: var(--color-brand-text);
+}
+
+:focus-visible {
+	outline: 2px solid var(--color-brand-yellow);
+	outline-offset: 3px;
+}
+
+.scrollbar-hidden {
+	scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+	display: none;
+}
