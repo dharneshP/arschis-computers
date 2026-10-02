@@ -107,7 +107,7 @@
     <WhyArschis />
     <ServiceProcess />
     <ProductPreview productData={data.productData} />
-    <OurWorkPreview />
+    <OurWorkPreview data={data.galleryData} />
     <Reviews />
     <Map />
 </main>
