@@ -85,10 +85,10 @@
                 <div class="overflow-hidden" role="group" aria-label="Swipe through customer reviews" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
                     <div class="flex transition-transform duration-300 ease-out" style={`transform: translateX(-${currentPage * 100}%);`}>
                         {#each reviewPages as page, pageIndex}
-                            <div class="grid min-w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+                            <div class="relative grid min-w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
                                 {#each page as review, pageItemIndex}
                                     {@const index = pageIndex * visibleCount + pageItemIndex}
-                                    <article class="flex min-h-[18rem] flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm" aria-label={`Review ${index + 1} of ${reviews.length}`}>
+                                    <article class="flex min-h-[18rem] flex-col rounded-xl border border-slate-200 bg-white p-6 max-md:px-16 shadow-sm" aria-label={`Review ${index + 1} of ${reviews.length}`}>
                         <div class="mb-3 text-[#F5C400]" aria-label={`${review.rating} out of 5 stars`}>
                             {#each Array(review.rating) as _}
                                 <i class="fa-solid fa-star" aria-hidden="true"></i>
@@ -106,12 +106,22 @@
                         </div>
                                     </article>
                                 {/each}
+                                {#if pageCount > 1}
+                                    <div class="pointer-events-none absolute inset-x-0 top-[57%] z-10 flex -translate-y-1/2 justify-between px-2 md:hidden">
+                                        <button type="button" class="pointer-events-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-slate-900/10 text-[#0B1F3A] backdrop-blur-sm transition-colors hover:bg-slate-900/20 disabled:cursor-not-allowed disabled:opacity-30" aria-label="Previous review" disabled={!canGoPrevious} onclick={() => goToPage(currentPage - 1)}>
+                                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="pointer-events-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-slate-900/10 text-[#0B1F3A] backdrop-blur-sm transition-colors hover:bg-slate-900/20 disabled:cursor-not-allowed disabled:opacity-30" aria-label="Next review" disabled={!canGoNext} onclick={() => goToPage(currentPage + 1)}>
+                                            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                {/if}
                             </div>
                         {/each}
                     </div>
                 </div>
                 {#if pageCount > 1}
-                    <div class="mt-6 flex items-center justify-center gap-4">
+                    <div class="mt-6 hidden items-center justify-center gap-4 md:flex">
                         <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 text-[#0B1F3A] transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Previous reviews" disabled={!canGoPrevious} onclick={() => goToPage(currentPage - 1)}>
                             <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
                         </button>
