@@ -1,143 +1,174 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { getGoogleReviewData, type GoogleReview, type GoogleReviewLoadStatus } from '$lib/google-reviews';
-    import { googleMapsUrl } from '$lib/location';
 
-    let reviews: GoogleReview[] = $state([]);
-    let reviewsUrl = $state(googleMapsUrl);
-    let status: GoogleReviewLoadStatus | 'loading' = $state('loading');
-    let visibleCount = $state(1);
-    let currentPage = $state(0);
-    let expandedReview = $state<number | null>(null);
-    let touchStartX = 0;
+    let placeData: any = $state(null);
+    let loading = $state(true);
+    let error = $state(false);
 
-    const pageCount = $derived(Math.max(1, Math.ceil(reviews.length / visibleCount)));
-    const reviewPages = $derived(
-        Array.from({ length: pageCount }, (_, page) => reviews.slice(page * visibleCount, (page + 1) * visibleCount))
-    );
-    const canGoPrevious = $derived(currentPage > 0);
-    const canGoNext = $derived(currentPage < pageCount - 1);
+    // Mobile Carousel State
+    let currentIndex = $state(0);
 
-    onMount(() => {
-        const updateVisibleCount = () => {
-            visibleCount = window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1;
-            currentPage = Math.min(currentPage, Math.max(0, Math.ceil(reviews.length / visibleCount) - 1));
-        };
-
-        updateVisibleCount();
-        window.addEventListener('resize', updateVisibleCount);
-
-        void getGoogleReviewData().then((data) => {
-            reviews = data.reviews.filter((review) => review.rating >= 4 && review.text).slice(0, 5);
-            reviewsUrl = data.googleMapsUrl || googleMapsUrl;
-            status = reviews.length ? 'success' : data.status === 'error' ? 'error' : 'empty';
-        });
-
-        return () => window.removeEventListener('resize', updateVisibleCount);
+    onMount(async () => {
+        try {
+            const res = await fetch('/api/reviews');
+            if (res.ok) {
+                placeData = await res.json();
+            } else {
+                error = true;
+            }
+        } catch (e) {
+            error = true;
+        } finally {
+            loading = false;
+        }
     });
 
-    function formatDate(unixTime: number) {
-        return new Date(unixTime * 1000).toLocaleDateString('en-IN', {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-        });
+    function nextReview() {
+        if (placeData?.reviews && currentIndex < placeData.reviews.length - 1) {
+            currentIndex++;
+        } else {
+            currentIndex = 0; // Wrap around to start
+        }
     }
 
-    function goToPage(page: number) {
-        currentPage = Math.max(0, Math.min(page, pageCount - 1));
-        expandedReview = null;
+    function prevReview() {
+        if (placeData?.reviews && currentIndex > 0) {
+            currentIndex--;
+        } else if (placeData?.reviews) {
+            currentIndex = placeData.reviews.length - 1; // Wrap around to end
+        }
     }
 
-    function handleTouchStart(event: TouchEvent) {
-        touchStartX = event.changedTouches[0]?.clientX ?? 0;
+    // Swipe navigation logic for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    function handleTouchStart(e: TouchEvent) {
+        touchStartX = e.changedTouches[0].screenX;
     }
-
-    function handleTouchEnd(event: TouchEvent) {
-        const touchEndX = event.changedTouches[0]?.clientX ?? touchStartX;
-        const distance = touchEndX - touchStartX;
-        if (Math.abs(distance) < 50) return;
-        goToPage(currentPage + (distance < 0 ? 1 : -1));
+    function handleTouchEnd(e: TouchEvent) {
+        touchEndX = e.changedTouches[0].screenX;
+        if (touchStartX - touchEndX > 50) nextReview(); // Swipe left
+        if (touchEndX - touchStartX > 50) prevReview(); // Swipe right
     }
 </script>
 
-<section id="testimonials" class="bg-[#F5F7FA] px-4 py-14 sm:py-20" aria-labelledby="reviews-heading">
-    <div class="mx-auto max-w-7xl">
-        <div class="mb-10 text-center">
-            <h2 id="reviews-heading" class="text-3xl font-extrabold text-[#0B1F3A] sm:text-4xl">What Our Customers Say</h2>
-            <p class="mt-2 text-slate-600">Recent feedback provided through Google.</p>
-        </div>
-
-        {#if status === 'loading'}
-            <div class="grid min-h-[18rem] gap-5 md:grid-cols-3" aria-live="polite" aria-label="Loading customer reviews">
-                {#each Array(3) as _}
-                    <div class="animate-pulse rounded-xl border border-slate-200 bg-white p-6" aria-hidden="true">
-                        <div class="h-5 w-2/5 rounded bg-slate-200"></div>
-                        <div class="mt-5 h-4 rounded bg-slate-200"></div>
-                        <div class="mt-3 h-4 rounded bg-slate-200"></div>
-                        <div class="mt-3 h-4 w-3/4 rounded bg-slate-200"></div>
-                    </div>
-                {/each}
-                <span class="sr-only">Loading customer reviews…</span>
-            </div>
-        {:else if reviews.length}
-            <div class="relative" role="region" aria-roledescription="carousel" aria-label="Customer reviews">
-                <div class="overflow-hidden" role="group" aria-label="Swipe through customer reviews" ontouchstart={handleTouchStart} ontouchend={handleTouchEnd}>
-                    <div class="flex transition-transform duration-300 ease-out" style={`transform: translateX(-${currentPage * 100}%);`}>
-                        {#each reviewPages as page, pageIndex}
-                            <div class="relative grid min-w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
-                                {#each page as review, pageItemIndex}
-                                    {@const index = pageIndex * visibleCount + pageItemIndex}
-                                    <article class="flex min-h-[18rem] flex-col rounded-xl border border-slate-200 bg-white p-6 max-md:px-16 shadow-sm" aria-label={`Review ${index + 1} of ${reviews.length}`}>
-                        <div class="mb-3 text-[#F5C400]" aria-label={`${review.rating} out of 5 stars`}>
-                            {#each Array(review.rating) as _}
-                                <i class="fa-solid fa-star" aria-hidden="true"></i>
-                            {/each}
-                        </div>
-                        <p class={`${expandedReview === index ? '' : 'line-clamp-5'} flex-1 text-sm leading-relaxed text-slate-600`}>“{review.text}”</p>
-                        {#if review.text.length > 300}
-                            <button type="button" class="mt-2 self-start text-sm font-bold text-[#D92323] hover:underline" onclick={() => expandedReview = expandedReview === index ? null : index}>
-                                {expandedReview === index ? 'Show less' : 'Read more'}
-                            </button>
-                        {/if}
-                        <div class="mt-5 border-t border-slate-100 pt-4">
-                            <strong class="block text-sm text-[#0B1F3A]">{review.author_name}</strong>
-                            <span class="text-xs text-slate-500">{formatDate(review.time)} · Google review</span>
-                        </div>
-                                    </article>
-                                {/each}
-                                {#if pageCount > 1}
-                                    <div class="pointer-events-none absolute inset-x-0 top-[57%] z-10 flex -translate-y-1/2 justify-between px-2 md:hidden">
-                                        <button type="button" class="pointer-events-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-slate-900/10 text-[#0B1F3A] backdrop-blur-sm transition-colors hover:bg-slate-900/20 disabled:cursor-not-allowed disabled:opacity-30" aria-label="Previous review" disabled={!canGoPrevious} onclick={() => goToPage(currentPage - 1)}>
-                                            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-                                        </button>
-                                        <button type="button" class="pointer-events-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-slate-900/10 text-[#0B1F3A] backdrop-blur-sm transition-colors hover:bg-slate-900/20 disabled:cursor-not-allowed disabled:opacity-30" aria-label="Next review" disabled={!canGoNext} onclick={() => goToPage(currentPage + 1)}>
-                                            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                {/if}
-                            </div>
+<section class="pt-16 pb-0 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Header & Overall Rating -->
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-extrabold text-slate-900 mb-4">What Our Customers Say</h2>
+            
+            {#if loading}
+                <div class="animate-pulse h-6 w-48 bg-slate-200 rounded mx-auto"></div>
+            {:else if placeData && !error}
+                <div class="flex items-center justify-center gap-3">
+                    <span class="text-2xl font-bold text-slate-900">{placeData.rating}</span>
+                    <div class="flex text-[#FFD700] text-xl">
+                        {#each Array(5) as _, i}
+                            <i class="fa-{i < Math.round(placeData.rating) ? 'solid' : 'regular'} fa-star"></i>
                         {/each}
                     </div>
+                    <span class="text-sm text-slate-500 font-medium">({placeData.userRatingsTotal} Google Reviews)</span>
                 </div>
-                {#if pageCount > 1}
-                    <div class="mt-6 hidden items-center justify-center gap-4 md:flex">
-                        <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 text-[#0B1F3A] transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Previous reviews" disabled={!canGoPrevious} onclick={() => goToPage(currentPage - 1)}>
-                            <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-                        </button>
-                        <span class="min-w-14 text-center text-sm font-bold text-slate-600" aria-live="polite">{currentPage + 1} / {pageCount}</span>
-                        <button type="button" class="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-3 text-[#0B1F3A] transition-colors hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40" aria-label="Next reviews" disabled={!canGoNext} onclick={() => goToPage(currentPage + 1)}>
-                            <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                {/if}
+            {/if}
+        </div>
+
+        <!-- Reviews Container -->
+        {#if !loading && placeData?.reviews?.length > 0}
+            <div 
+                class="relative" 
+                ontouchstart={handleTouchStart} 
+                ontouchend={handleTouchEnd}
+                role="region"
+                aria-label="Reviews Carousel"
+            >
+                <!-- Desktop: Horizontal Scroll Row | Mobile: Single Item -->
+                <div class="flex md:overflow-x-auto gap-6 md:pb-6 custom-scrollbar md:snap-x md:snap-mandatory">
+                    {#each placeData.reviews.slice(0, 10) as review, i}
+                        <!-- Fixed width on desktop (md:w-[360px]) forces them into a single scrolling row -->
+                        <div class="{i === currentIndex ? 'block' : 'hidden'} md:block w-full md:w-[360px] shrink-0 md:snap-start bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                            
+                            <!-- Reviewer Info -->
+                            <div class="flex items-center gap-4 mb-4">
+                                {#if review.profile_photo_url}
+                                    <img src={review.profile_photo_url} alt={review.author_name} class="w-12 h-12 rounded-full object-cover" referrerpolicy="no-referrer" />
+                                {:else}
+                                    <div class="w-12 h-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-500">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                {/if}
+                                
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">{review.author_name}</h4>
+                                    <div class="flex text-[#FFD700] text-xs mt-1">
+                                        {#each Array(5) as _, starIndex}
+                                            <i class="fa-{starIndex < review.rating ? 'solid' : 'regular'} fa-star"></i>
+                                        {/each}
+                                    </div>
+                                </div>
+                                <!-- Google Icon for Attribution -->
+                                <i class="fa-brands fa-google text-slate-400 ml-auto"></i>
+                            </div>
+
+                            <!-- Review Text -->
+                            <p class="text-slate-600 text-sm italic mb-4 line-clamp-4">
+                                "{review.text}"
+                            </p>
+
+                            <!-- Date -->
+                            <p class="text-xs text-slate-400 font-medium">
+                                {review.relativePublishTimeDescription}
+                            </p>
+                        </div>
+                    {/each}
+                </div>
+
+                <!-- Mobile Navigation Arrows (Hidden on Desktop) -->
+                <button 
+                    onclick={prevReview} 
+                    class="md:hidden absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-600 hover:text-slate-900 active:scale-95 transition-all z-10"
+                    aria-label="Previous Review"
+                >
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button 
+                    onclick={nextReview} 
+                    class="md:hidden absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-600 hover:text-slate-900 active:scale-95 transition-all z-10"
+                    aria-label="Next Review"
+                >
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+
             </div>
-        {:else}
-            <div class="flex min-h-[18rem] flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-8 text-center" role="status">
-                <p class="font-bold text-[#0B1F3A]">See what our customers say on Google</p>
-                <p class="mt-2 text-slate-600">Visit Google Maps for current customer feedback.</p>
-                <a href={reviewsUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex min-h-11 items-center font-bold text-[#D92323] hover:underline">View Our Google Reviews</a>
-            </div>
+
+            <!-- View All CTA -->
+            {#if placeData.googleMapsUrl}
+                <div class="mt-6 text-center">
+                    <a href={placeData.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 hover:text-slate-900 font-bold rounded-lg transition-colors">
+                        <i class="fa-brands fa-google text-[#4285F4]"></i>
+                        View all reviews on Google
+                    </a>
+                </div>
+            {/if}
         {/if}
     </div>
 </section>
+
+<style>
+    /* Custom thin scrollbar for the horizontal desktop reviews */
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 6px; 
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent; 
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #cbd5e1; 
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8; 
+    }
+</style>

@@ -1,9 +1,12 @@
 export interface GoogleReview {
 	author_name: string;
 	profile_photo_url?: string;
+	author_uri?: string;
 	rating: number;
 	text: string;
-	time: number;
+	time?: number;
+	publishTime?: string;
+	relativePublishTimeDescription?: string;
 }
 
 export interface GoogleReviewData {
@@ -11,6 +14,7 @@ export interface GoogleReviewData {
 	rating?: number;
 	userRatingsTotal?: number;
 	googleMapsUrl?: string;
+	googleAttribution?: string;
 }
 
 export type GoogleReviewLoadStatus = 'success' | 'empty' | 'error';
