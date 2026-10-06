@@ -2,7 +2,6 @@
     import {
         formatProductSpecs,
         getProductQuoteUrl,
-        productCategories,
         getOptimizedProductImage,
     } from '$lib/products';
     import Seo from '$lib/components/Seo.svelte';
@@ -12,14 +11,32 @@
 
     let { data }: PageProps = $props();
     let activeCategory = $state('All');
+    let activeCondition = $state('All');
+    let searchTerm = $state('');
+    let filtersOpen = $state(false);
+    let draftCategory = $state('All');
+    let draftCondition = $state('All');
 
-    const categories = productCategories;
+    const products = $derived(data.productData.products);
+    const categories = $derived(['All', ...Array.from(new Set(products.map((product) => product.category?.trim()).filter(Boolean) as string[])).sort((a, b) => a.localeCompare(b))]);
+    const conditions = ['All', 'New', 'Used', 'Refurbished'];
+    const normalize = (value?: string) => value?.trim().toLowerCase() || '';
+    const conditionLabel = (value?: string) => value ? value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() : '';
 
     let filteredProducts = $derived(
-        activeCategory === 'All' 
-            ? data.productData.products
-            : data.productData.products.filter((product) => product.category === activeCategory)
+        products.filter((product) =>
+            (activeCategory === 'All' || product.category === activeCategory) &&
+            (activeCondition === 'All' || normalize(product.condition) === activeCondition.toLowerCase()) &&
+            ((product.name || '').toLowerCase().includes(searchTerm.trim().toLowerCase()))
+        )
     );
+
+    const hasActiveFilters = $derived(activeCategory !== 'All' || activeCondition !== 'All' || searchTerm.trim().length > 0);
+    const categoryCount = (category: string) => category === 'All' ? products.length : products.filter((product) => product.category === category).length;
+    const conditionCount = (condition: string) => condition === 'All' ? products.length : products.filter((product) => normalize(product.condition) === condition.toLowerCase()).length;
+    function openFilters() { draftCategory = activeCategory; draftCondition = activeCondition; filtersOpen = true; }
+    function applyFilters() { activeCategory = draftCategory; activeCondition = draftCondition; filtersOpen = false; }
+    function clearFilters() { activeCategory = 'All'; activeCondition = 'All'; searchTerm = ''; draftCategory = 'All'; draftCondition = 'All'; filtersOpen = false; }
 
 </script>
 
@@ -39,21 +56,35 @@
             </p>
         </div>
 
-        <!-- Category Filters -->
-        <div class="flex flex-wrap justify-center gap-3 mb-12">
-            {#each categories as category}
-                <button 
-                    onclick={() => activeCategory = category}
-                    aria-pressed={activeCategory === category}
+        <div class="mb-10 space-y-4">
+            <div class="mx-auto flex max-w-3xl gap-3">
+                <label class="sr-only" for="product-search">Search Products</label>
+                <input id="product-search" bind:value={searchTerm} placeholder="Search Products" class="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-700 shadow-sm focus:border-[#0F284F] focus:outline-none focus:ring-2 focus:ring-[#0F284F]/20" />
+                <button type="button" onclick={openFilters} class="rounded-xl bg-[#0F284F] px-5 py-3 font-bold text-white shadow-sm hover:bg-[#173b70] lg:hidden">Filters</button>
+            </div>
+            <div class="hidden justify-center gap-3 lg:flex {categories.length > 7 ? 'lg:hidden' : ''}">
+                {#each categories as category}
+                    <button type="button" onclick={() => activeCategory = category} aria-pressed={activeCategory === category}
                     class="px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-200 shadow-sm 
                     {activeCategory === category 
                         ? 'bg-[#0F284F] text-white ring-2 ring-[#0F284F] ring-offset-2 ring-offset-slate-50' 
                         : 'bg-white text-slate-600 hover:text-[#0F284F] hover:bg-slate-100 border border-slate-200'}"
-                >
-                    {category}
-                </button>
-            {/each}
+                >{category} <span class="ml-1 text-xs opacity-70">{categoryCount(category)}</span></button>
+                {/each}
+            </div>
+            {#if categories.length > 7}
+                <div class="hidden items-center justify-center gap-3 lg:flex">
+                    <label for="category-select" class="font-bold text-[#0F284F]">Categories</label>
+                    <select id="category-select" bind:value={activeCategory} class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 font-semibold text-slate-700 shadow-sm">{#each categories as category}<option value={category}>{category} ({categoryCount(category)})</option>{/each}</select>
+                </div>
+            {/if}
+            <div class="hidden justify-center gap-2 lg:flex">
+                {#each conditions as condition}<button type="button" onclick={() => activeCondition = condition} class="rounded-full border px-4 py-2 text-sm font-bold {activeCondition === condition ? 'border-[#0F284F] bg-[#0F284F] text-white' : 'border-slate-200 bg-white text-slate-600'}">{condition} <span class="opacity-70">{conditionCount(condition)}</span></button>{/each}
+            </div>
+            {#if hasActiveFilters}<div class="flex flex-wrap items-center justify-center gap-2 text-sm"><span class="font-semibold text-slate-500">Active:</span>{#if activeCategory !== 'All'}<button type="button" onclick={() => activeCategory = 'All'} class="rounded-full bg-slate-200 px-3 py-1 font-semibold">{activeCategory} ×</button>{/if}{#if activeCondition !== 'All'}<button type="button" onclick={() => activeCondition = 'All'} class="rounded-full bg-slate-200 px-3 py-1 font-semibold">{activeCondition} ×</button>{/if}{#if searchTerm}<button type="button" onclick={() => searchTerm = ''} class="rounded-full bg-slate-200 px-3 py-1 font-semibold">Search ×</button>{/if}<button type="button" onclick={clearFilters} class="font-bold text-[#0F284F] underline">Clear Filters</button></div>{/if}
         </div>
+
+        {#if filtersOpen}<div class="fixed inset-0 z-50 flex items-end bg-slate-900/50 lg:hidden" role="presentation" onclick={(event) => event.target === event.currentTarget && (filtersOpen = false)}><div class="w-full rounded-t-3xl bg-white p-6" role="dialog" aria-modal="true" aria-label="Store filters" tabindex="-1"><div class="mb-5 flex items-center justify-between"><h2 class="text-xl font-bold text-[#0F284F]">Filters</h2><button type="button" onclick={() => filtersOpen = false} aria-label="Close filters" class="text-2xl text-slate-500">×</button></div><label class="mb-2 block font-bold text-[#0F284F]" for="mobile-category">Category</label><select id="mobile-category" bind:value={draftCategory} class="mb-5 w-full rounded-xl border border-slate-200 px-4 py-3">{#each categories as category}<option value={category}>{category} ({categoryCount(category)})</option>{/each}</select><label class="mb-2 block font-bold text-[#0F284F]" for="mobile-condition">Condition</label><select id="mobile-condition" bind:value={draftCondition} class="mb-6 w-full rounded-xl border border-slate-200 px-4 py-3">{#each conditions as condition}<option value={condition}>{condition} ({conditionCount(condition)})</option>{/each}</select><div class="flex gap-3"><button type="button" onclick={clearFilters} class="flex-1 rounded-xl border border-slate-200 py-3 font-bold text-slate-700">Clear Filters</button><button type="button" onclick={applyFilters} class="flex-1 rounded-xl bg-[#0F284F] py-3 font-bold text-white">Show Products</button></div></div></div>{/if}
 
         {#if data.productData.status === 'success'}
             <!-- Product Grid -->
@@ -62,6 +93,7 @@
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
                         
                         <div class="h-64 bg-slate-100 p-4 relative overflow-hidden flex items-center justify-center">
+                            {#if product.condition}<span class="absolute right-4 top-4 z-10 rounded-full bg-[#F4C542] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#0F284F]">{conditionLabel(product.condition)}</span>{/if}
                             <img 
                                 src={getOptimizedProductImage(product.image, 720)}
                                 srcset={product.image ? `${getOptimizedProductImage(product.image, 480)} 480w, ${getOptimizedProductImage(product.image, 720)} 720w` : undefined}

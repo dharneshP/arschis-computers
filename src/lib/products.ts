@@ -4,6 +4,7 @@ export interface Product {
 	_id: string;
 	name?: string;
 	category?: string;
+	condition?: string;
 	specs?: string;
 	image?: string;
 }
@@ -15,14 +16,12 @@ export interface ProductLoadResult {
 	status: ProductLoadStatus;
 }
 
-export const productCategories = ['All', 'Branded Desktops', 'PC Cabinets', 'PC Components'];
-
 export const allProductsQuery = `*[_type == "product"] | order(_createdAt desc){
-	_id, name, category, specs, "image": image.asset->url
+	_id, name, category, condition, specs, "image": image.asset->url
 }`;
 
 export const featuredProductsQuery = `*[_type == "product"] | order(_createdAt desc)[0...4]{
-	_id, name, category, specs, "image": image.asset->url
+	_id, name, category, condition, specs, "image": image.asset->url
 }`;
 
 export function getProductQuoteUrl(productName?: string) {
