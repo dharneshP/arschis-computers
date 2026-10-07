@@ -20,6 +20,17 @@
 
     let heroButtonElement: HTMLElement;
 
+    function focusService(serviceId: string, event: MouseEvent) {
+        event.preventDefault();
+        const target = document.getElementById(serviceId);
+        if (!target) return;
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        window.setTimeout(() => {
+            target.classList.add('service-highlight');
+            window.setTimeout(() => target.classList.remove('service-highlight'), 1800);
+        }, 450);
+    }
+
     onMount(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -51,7 +62,7 @@
 
 <main class="w-full bg-white">
     <!-- Hero Section -->
-    <section class="relative isolate flex min-h-[31rem] items-center overflow-hidden border-t border-slate-200 px-4 py-16 sm:min-h-[34rem] sm:py-24" aria-labelledby="hero-heading">
+    <section class="relative isolate flex min-h-[26rem] items-center overflow-hidden border-t border-slate-200 px-4 py-10 sm:min-h-[34rem] sm:py-24" aria-labelledby="hero-heading">
         <!-- TODO: Replace this temporary stock image with /arschis-computers-erode-store.webp when a genuine storefront photo is available. -->
         <img
             src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80"
@@ -67,7 +78,7 @@
         <div class="absolute inset-0 -z-10 bg-gradient-to-r from-[#071426]/90 via-[#0B1F3A]/80 to-[#071426]/65"></div>
         
         <div class="relative z-10 mx-auto max-w-4xl text-center text-white">
-            <h1 id="hero-heading" class="mb-6 text-4xl font-extrabold leading-[1.08] sm:text-5xl md:text-6xl">Computer Sales &amp; Service in Erode</h1>
+            <h1 id="hero-heading" class="mb-4 text-3xl font-extrabold leading-[1.08] sm:mb-6 sm:text-5xl md:text-6xl">Computer Sales &amp; Service in Erode</h1>
             <p class="mb-9 text-base font-medium tracking-wide text-slate-100 sm:text-xl">
                 Laptops &bull; PCs &bull; Printers &bull; Networking &bull; IT Solutions
             </p>
@@ -77,7 +88,7 @@
                 <button bind:this={heroButtonElement} onclick={() => $isBookingOpen = true} class="inline-flex min-h-14 w-full items-center justify-center rounded-lg bg-[#D92323] px-7 py-3 text-lg font-bold text-white shadow-lg transition-colors hover:bg-red-700 focus-visible:outline-white sm:w-auto">
                     <i class="fa-solid fa-wrench mr-2" aria-hidden="true"></i> Book a Service
                 </button>
-                <a href={phoneUrl} aria-label="Call Arschis Computers now" class="inline-flex min-h-14 w-full items-center justify-center rounded-lg border-2 border-[#F5C400] px-7 py-3 text-lg font-bold text-[#F5C400] shadow-lg transition-colors hover:bg-[#F5C400] hover:text-[#071426] focus-visible:outline-white sm:w-auto">
+                <a href={phoneUrl} aria-label="Call Arschis Computers now" class="hidden min-h-14 w-full items-center justify-center rounded-lg border-2 border-[#F5C400] px-7 py-3 text-lg font-bold text-[#F5C400] shadow-lg transition-colors hover:bg-[#F5C400] hover:text-[#071426] focus-visible:outline-white sm:inline-flex sm:w-auto">
                     <i class="fa-solid fa-phone mr-2" aria-hidden="true"></i> Call Now
                 </a>
             </div>
@@ -87,15 +98,15 @@
     <!-- Quick Service Strip -->
     <section class="border-b border-slate-200 bg-[#F5F7FA] py-4" aria-label="Quick services">
         <div class="mx-auto max-w-7xl">
-            <div class="scrollbar-hidden grid auto-cols-[8.5rem] grid-flow-col gap-3 overflow-x-auto px-4 pb-1 snap-x snap-mandatory md:grid-flow-row md:grid-cols-3 md:overflow-visible md:px-6 md:pb-0 lg:px-8">
+            <div class="grid grid-cols-3 gap-3 px-4 pb-1 md:grid-cols-3 md:px-6 md:pb-0 lg:px-8">
                 {#each [
-                    { name: 'PC', icon: 'fa-desktop' },
-                    { name: 'Printer', icon: 'fa-print' },
-                    { name: 'Networking', icon: 'fa-network-wired' },
+                    { name: 'PC', icon: 'fa-desktop', target: 'service-pc' },
+                    { name: 'Printer', icon: 'fa-print', target: 'service-printer' },
+                    { name: 'Networking', icon: 'fa-network-wired', target: 'service-networking' },
                 ] as service}
-                    <a href="#services" class="group flex min-h-20 snap-start items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white px-4 py-3 font-bold text-[#172033] transition-colors hover:border-[#D92323] hover:text-[#D92323] focus-visible:outline-[#D92323]">
-                        <i class="fa-solid {service.icon} text-xl text-[#0B1F3A] transition-colors group-hover:text-[#D92323]" aria-hidden="true"></i>
-                        <span>{service.name}</span>
+                    <a href={`#${service.target}`} onclick={(event) => focusService(service.target, event)} class="group flex min-h-20 min-w-0 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-2 py-3 text-center text-sm font-bold text-[#172033] transition-colors hover:border-[#D92323] hover:text-[#D92323] sm:gap-3 sm:px-4 sm:text-base focus-visible:outline-[#D92323]">
+                        <i class="fa-solid {service.icon} shrink-0 text-base text-[#0B1F3A] transition-colors group-hover:text-[#D92323] sm:text-xl" aria-hidden="true"></i>
+                        <span class="truncate">{service.name}</span>
                     </a>
                 {/each}
             </div>

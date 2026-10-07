@@ -2,7 +2,7 @@
     import { businessPhone, phoneUrl, secondaryBusinessPhone, secondaryPhoneUrl } from '$lib/contact';
 </script>
 
-<footer class="bg-[#0F172A] text-slate-300 pt-16 pb-28 md:pb-12 border-t border-slate-800">
+<footer class="bg-[#0F172A] text-slate-300 pt-16 pb-6 md:pb-12 border-t border-slate-800">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- 1 column on mobile, 3 columns on desktop -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
@@ -37,7 +37,7 @@
                     </li>
                     <li class="flex items-start gap-3">
                         <i class="fa-solid fa-user-tie mt-1 text-[#DC2626]"></i>
-                        <span class="text-sm">Prop: A.P. Vasanthakumar<br/>B.Sc., DECE.</span>
+                        <span class="text-sm">Prop: P. Vasanthakumar B.Sc., DECE.</span>
                     </li>
                 </ul>
             </div>

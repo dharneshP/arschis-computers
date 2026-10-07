@@ -49,7 +49,7 @@
 
         <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
             {#each services as service}
-                <article class="flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+                <article id={service.title.startsWith('Laptop') ? 'service-pc' : service.title.startsWith('Printer') ? 'service-printer' : service.title === 'Networking' ? 'service-networking' : undefined} class="scroll-mt-24 flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow duration-300 sm:p-6">
                     <i class="fa-solid {service.icon} mb-3 text-2xl text-[#D92323] sm:text-3xl" aria-hidden="true"></i>
                     <h3 class="text-base font-bold leading-tight text-[#0B1F3A] sm:text-xl">{service.title}</h3>
                     <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 sm:text-sm">{service.description}</p>

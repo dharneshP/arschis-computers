@@ -8,6 +8,7 @@
     import Footer from '$lib/components/Footer.svelte';
     import { getWhatsAppUrl, phoneUrl } from '$lib/contact';
     import type { PageProps } from './$types';
+    import { overlayCount } from '$lib/store';
 
     let { data }: PageProps = $props();
     let activeCategory = $state('All');
@@ -34,9 +35,10 @@
     const hasActiveFilters = $derived(activeCategory !== 'All' || activeCondition !== 'All' || searchTerm.trim().length > 0);
     const categoryCount = (category: string) => category === 'All' ? products.length : products.filter((product) => product.category === category).length;
     const conditionCount = (condition: string) => condition === 'All' ? products.length : products.filter((product) => normalize(product.condition) === condition.toLowerCase()).length;
-    function openFilters() { draftCategory = activeCategory; draftCondition = activeCondition; filtersOpen = true; }
-    function applyFilters() { activeCategory = draftCategory; activeCondition = draftCondition; filtersOpen = false; }
-    function clearFilters() { activeCategory = 'All'; activeCondition = 'All'; searchTerm = ''; draftCategory = 'All'; draftCondition = 'All'; filtersOpen = false; }
+    function openFilters() { draftCategory = activeCategory; draftCondition = activeCondition; filtersOpen = true; overlayCount.set(1); }
+    function applyFilters() { activeCategory = draftCategory; activeCondition = draftCondition; filtersOpen = false; overlayCount.set(0); }
+    function clearFilters() { activeCategory = 'All'; activeCondition = 'All'; searchTerm = ''; draftCategory = 'All'; draftCondition = 'All'; filtersOpen = false; overlayCount.set(0); }
+    $effect(() => { if (!filtersOpen) overlayCount.set(0); });
 
 </script>
 
@@ -46,10 +48,10 @@
     path="/store"
 />
 
-<main class="min-h-screen bg-slate-50 py-12">
+<main class="min-h-screen bg-slate-50 py-8 sm:py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div class="text-center mb-12">
+        <div class="text-center mb-7 sm:mb-12">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-[#0F284F] mb-4">Our Store</h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
                 Browse our premium selection of branded desktops, high-airflow gaming cabinets, and core components. Tap 'Enquire' to get an instant quote via WhatsApp.
@@ -60,7 +62,7 @@
             <div class="mx-auto flex max-w-3xl gap-3">
                 <label class="sr-only" for="product-search">Search Products</label>
                 <input id="product-search" bind:value={searchTerm} placeholder="Search Products" class="min-w-0 flex-1 rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-700 shadow-sm focus:border-[#0F284F] focus:outline-none focus:ring-2 focus:ring-[#0F284F]/20" />
-                <button type="button" onclick={openFilters} class="rounded-xl bg-[#0F284F] px-5 py-3 font-bold text-white shadow-sm hover:bg-[#173b70] lg:hidden">Filters</button>
+                <button type="button" onclick={openFilters} class="min-h-[52px] rounded-xl bg-[#0F284F] px-4 font-bold text-white shadow-sm hover:bg-[#173b70] lg:hidden">Filters</button>
             </div>
             <div class="hidden justify-center gap-3 lg:flex {categories.length > 7 ? 'lg:hidden' : ''}">
                 {#each categories as category}
@@ -88,11 +90,11 @@
 
         {#if data.productData.status === 'success'}
             <!-- Product Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 lg:gap-8">
                 {#each filteredProducts as product}
                     <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group">
                         
-                        <div class="h-64 bg-slate-100 p-4 relative overflow-hidden flex items-center justify-center">
+                        <div class="relative flex h-36 items-center justify-center overflow-hidden bg-slate-100 p-2 sm:h-64 sm:p-4">
                             {#if product.condition}<span class="absolute right-4 top-4 z-10 rounded-full bg-[#F4C542] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#0F284F]">{conditionLabel(product.condition)}</span>{/if}
                             <img 
                                 src={getOptimizedProductImage(product.image, 720)}
@@ -108,9 +110,9 @@
                             />
                         </div>
                         
-                        <div class="p-6 flex flex-col flex-1">
+                        <div class="flex flex-1 flex-col p-3 sm:p-6">
                             <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">{product.category || 'Uncategorized'}</span>
-                            <h2 class="text-xl font-bold text-[#0F284F] mb-4 leading-tight">{product.name || 'Product enquiry'}</h2>
+                            <h2 class="mb-3 text-sm font-bold leading-tight text-[#0F284F] sm:text-xl">{product.name || 'Product enquiry'}</h2>
                             
                             <!-- 2. Neatly Arranged Specs List -->
                             <div class="mb-8 flex-1">

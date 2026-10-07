@@ -8,7 +8,9 @@
     // Mobile Carousel State
     let currentIndex = $state(0);
 
-    onMount(async () => {
+    let reviewsSection: HTMLElement;
+
+    async function loadReviews() {
         try {
             const res = await fetch('/api/reviews');
             if (res.ok) {
@@ -21,6 +23,17 @@
         } finally {
             loading = false;
         }
+    }
+
+    onMount(() => {
+        const observer = new IntersectionObserver((entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+                observer.disconnect();
+                loadReviews();
+            }
+        }, { rootMargin: '400px 0px' });
+        if (reviewsSection) observer.observe(reviewsSection);
+        return () => observer.disconnect();
     });
 
     function nextReview() {
@@ -52,7 +65,7 @@
     }
 </script>
 
-<section class="pt-16 pb-0 bg-white relative">
+<section bind:this={reviewsSection} class="pt-16 pb-0 bg-white relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Header & Overall Rating -->

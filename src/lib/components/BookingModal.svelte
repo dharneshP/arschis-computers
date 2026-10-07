@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { isBookingOpen } from '$lib/store';
+    import { isBookingOpen, overlayCount } from '$lib/store';
     import { fade, fly } from 'svelte/transition';
 
     // Form State (using Svelte 5 runes)
@@ -9,6 +9,10 @@
     let selectedServices = $state<string[]>([]);
     let problem = $state('');
     let preferredType = $state('Visit Arschis Store');
+    $effect(() => {
+        overlayCount.set($isBookingOpen ? 1 : 0);
+        if (typeof document !== 'undefined') document.body.style.overflow = $isBookingOpen ? 'hidden' : '';
+    });
 
     const serviceCategories = [
         { label: 'PC / Laptop', icon: 'fa-solid fa-desktop' },
@@ -74,7 +78,7 @@ I would like to book a service.
 
         <!-- Modal Content Container -->
         <div 
-            class="relative bg-white w-full sm:max-w-xl rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[90vh]"
+            class="relative bg-white w-full sm:max-w-xl rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col max-h-[100dvh] sm:max-h-[90vh]"
             transition:fly={{ y: 100, duration: 300 }}
         >
             <!-- Header -->

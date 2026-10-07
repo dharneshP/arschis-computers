@@ -30,3 +30,13 @@ body {
 .scrollbar-hidden::-webkit-scrollbar {
 	display: none;
 }
+
+.service-highlight {
+	border-color: #f5c400 !important;
+	box-shadow: 0 0 0 3px rgba(245, 196, 0, 0.28), 0 8px 24px rgba(11, 31, 58, 0.14) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root { scroll-behavior: auto; }
+	*, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
