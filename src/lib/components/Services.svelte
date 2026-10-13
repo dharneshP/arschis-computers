@@ -15,7 +15,7 @@
             description: 'Desktops, components and systems matched to your requirements.',
             icon: 'fa-computer',
             booking: false
-            ,href: '/computer-service-erode/'
+            ,href: '/computer-sales-erode/'
         },
         {
             title: 'Printer Sales & Service',
