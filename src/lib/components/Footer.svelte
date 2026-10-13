@@ -64,9 +64,9 @@
             <div>
                 <h3 class="text-white text-lg font-bold mb-6 border-b border-slate-700 pb-2 inline-block border-b-[#FFD700]">Our Services</h3>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Laptop & PC Service</a></li>
+                    <li><a href="/laptop-service-erode/" class="hover:text-[#FFD700] transition-colors">Laptop Service</a></li>
                     <li><a href="/store" class="hover:text-[#FFD700] transition-colors">Computer Sales</a></li>
-                    <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Printer Sales & Service</a></li>
+                    <li><a href="/printer-service-erode/" class="hover:text-[#FFD700] transition-colors">Printer Service</a></li>
                     <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Networking</a></li>
                     <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">IT Support & AMC</a></li>
                 </ul>

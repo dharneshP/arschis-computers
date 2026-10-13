@@ -1,7 +1,7 @@
 import { site } from '$lib/site';
 import type { RequestHandler } from './$types';
 
-const routes = ['/', '/store', '/faq'];
+const routes = ['/', '/store', '/faq', '/laptop-service-erode/', '/computer-service-erode/', '/printer-service-erode/'];
 
 export const GET: RequestHandler = () => {
 	const urls = routes
