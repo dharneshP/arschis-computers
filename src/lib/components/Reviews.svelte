@@ -65,8 +65,10 @@
     }
 </script>
 
-<section bind:this={reviewsSection} class="pt-16 pb-0 bg-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div bind:this={reviewsSection} class="min-w-0">
+{#if placeData && !error && placeData.reviews?.length > 0}
+<section class="min-w-0 overflow-x-clip bg-white pt-16 pb-0 relative">
+    <div class="mx-auto min-w-0 max-w-7xl px-0 sm:px-6 lg:px-8">
         
         <!-- Header & Overall Rating -->
         <div class="text-center mb-12">
@@ -97,10 +99,10 @@
                 aria-label="Reviews Carousel"
             >
                 <!-- Desktop: Horizontal Scroll Row | Mobile: Single Item -->
-                <div class="flex md:overflow-x-auto gap-6 md:pb-6 custom-scrollbar md:snap-x md:snap-mandatory">
+                <div class="flex min-w-0 gap-6 md:overflow-x-auto md:pb-6 custom-scrollbar md:snap-x md:snap-mandatory">
                     {#each placeData.reviews.slice(0, 10) as review, i}
                         <!-- Fixed width on desktop (md:w-[360px]) forces them into a single scrolling row -->
-                        <div class="{i === currentIndex ? 'block' : 'hidden'} md:block w-full md:w-[360px] shrink-0 md:snap-start bg-slate-50 rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="{i === currentIndex ? 'block' : 'hidden'} md:block min-w-0 w-full shrink-0 break-words rounded-2xl border border-slate-100 bg-slate-50 p-6 shadow-sm transition-shadow hover:shadow-md md:w-[360px] md:snap-start">
                             
                             <!-- Reviewer Info -->
                             <div class="flex items-center gap-4 mb-4">
@@ -140,14 +142,14 @@
                 <!-- Mobile Navigation Arrows (Hidden on Desktop) -->
                 <button 
                     onclick={prevReview} 
-                    class="md:hidden absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-600 hover:text-slate-900 active:scale-95 transition-all z-10"
+                    class="absolute left-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg transition-all hover:text-slate-900 active:scale-95 md:hidden"
                     aria-label="Previous Review"
                 >
                     <i class="fa-solid fa-chevron-left"></i>
                 </button>
                 <button 
                     onclick={nextReview} 
-                    class="md:hidden absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white border border-slate-200 rounded-full shadow-lg flex items-center justify-center text-slate-600 hover:text-slate-900 active:scale-95 transition-all z-10"
+                    class="absolute right-1 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-lg transition-all hover:text-slate-900 active:scale-95 md:hidden"
                     aria-label="Next Review"
                 >
                     <i class="fa-solid fa-chevron-right"></i>
@@ -157,7 +159,7 @@
 
             <!-- View All CTA -->
             {#if placeData.googleMapsUrl}
-                <div class="mt-6 text-center">
+                <div class="mt-6 mb-6 text-center md:mb-8">
                     <a href={placeData.googleMapsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 hover:text-slate-900 font-bold rounded-lg transition-colors">
                         <i class="fa-brands fa-google text-[#4285F4]"></i>
                         View all reviews on Google
@@ -167,6 +169,8 @@
         {/if}
     </div>
 </section>
+{/if}
+</div>
 
 <style>
     /* Custom thin scrollbar for the horizontal desktop reviews */

@@ -3,12 +3,12 @@
 </script>
 
 <footer class="bg-[#0F172A] text-slate-300 pt-16 pb-6 md:pb-12 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mx-auto min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- 1 column on mobile, 3 columns on desktop -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
             
             <!-- Column 1: Business Information -->
-            <div class="space-y-5">
+            <div class="min-w-0 space-y-5">
                 <h3 class="text-white text-xl font-extrabold tracking-wide mb-2">Arschis Computers</h3>
                 <ul class="space-y-4">
                     <li class="flex items-start gap-3">
@@ -33,7 +33,7 @@
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fa-solid fa-envelope text-[#DC2626]"></i>
-                        <a href="mailto:arschiscomputers@gmail.com" class="text-sm hover:text-white transition-colors">arschiscomputers@gmail.com</a>
+                        <a href="mailto:arschiscomputers@gmail.com" class="break-all text-sm hover:text-white transition-colors">arschiscomputers@gmail.com</a>
                     </li>
                     <li class="flex items-start gap-3">
                         <i class="fa-solid fa-user-tie mt-1 text-[#DC2626]"></i>
