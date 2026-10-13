@@ -8,18 +8,21 @@
             description: 'Diagnostics, repairs, OS installation and performance upgrades.',
             icon: 'fa-laptop-medical',
             booking: true
+            ,href: '/laptop-service-erode/'
         },
         {
             title: 'Computer Sales',
             description: 'Desktops, components and systems matched to your requirements.',
             icon: 'fa-computer',
             booking: false
+            ,href: '/computer-service-erode/'
         },
         {
             title: 'Printer Sales & Service',
             description: 'Printer supply, maintenance, ink and toner support.',
             icon: 'fa-print',
             booking: false
+            ,href: '/printer-service-erode/'
         },
         {
             title: 'Networking',
@@ -54,7 +57,9 @@
                     <h3 class="text-base font-bold leading-tight text-[#0B1F3A] sm:text-xl">{service.title}</h3>
                     <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 sm:text-sm">{service.description}</p>
 
-                    {#if service.booking}
+                    {#if service.href}
+                        <a href={service.href} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#D92323] px-3 py-2 text-xs font-bold text-[#D92323] transition-colors hover:bg-red-50 sm:text-sm">View Service</a>
+                    {:else if service.booking}
                         <button onclick={() => $isBookingOpen = true} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#D92323] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-red-700 sm:text-sm">
                             Book a Service
                         </button>

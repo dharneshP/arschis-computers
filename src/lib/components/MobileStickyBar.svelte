@@ -5,7 +5,7 @@
     const whatsappUrl = getWhatsAppUrl();
 </script>
 
-{#if !$isOverlayOpen}<nav aria-label="Quick contact" class="fixed inset-x-0 bottom-0 z-[60] flex min-h-14 w-full bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_12px_rgba(7,20,38,0.18)] md:hidden">
+{#if !$isOverlayOpen}<nav aria-label="Quick contact" class="fixed left-0 right-0 bottom-0 z-[60] box-border flex min-h-14 w-full max-w-full bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_12px_rgba(7,20,38,0.18)] md:hidden">
     <a href={phoneUrl} aria-label="Call Arschis Computers" class="flex min-h-14 flex-1 items-center justify-center gap-2 border-r border-white/15 bg-[#0B1F3A] px-3 text-center font-bold text-white transition-colors active:bg-[#071426] focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-white">
         <i class="fa-solid fa-phone" aria-hidden="true"></i> Call
     </a>
