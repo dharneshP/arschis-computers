@@ -59,18 +59,19 @@
     path="/"
 />
 <BusinessStructuredData />
+<svelte:head>
+    <link rel="preload" as="image" href="/home-hero.jpg" type="image/jpeg" fetchpriority="high" />
+</svelte:head>
 
 <main class="w-full bg-white">
     <!-- Hero Section -->
     <section class="relative isolate flex min-h-[26rem] items-center overflow-hidden border-t border-slate-200 px-4 py-10 sm:min-h-[34rem] sm:py-24" aria-labelledby="hero-heading">
-        <!-- TODO: Replace this temporary stock image with /arschis-computers-erode-store.webp when a genuine storefront photo is available. -->
         <img
-            src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80"
-            srcset="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=640&q=78 640w, https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1024&q=80 1024w, https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1920&q=80 1920w"
-            sizes="100vw"
+            src="/home-hero.jpg"
             alt=""
             width="1920"
             height="1280"
+            loading="eager"
             fetchpriority="high"
             decoding="async"
             class="absolute inset-0 -z-20 h-full w-full object-cover object-center"
