@@ -26,10 +26,10 @@
                     aria-label="Arschis Computers Home"
                 >
                     <img 
-                        src="/logo.png" 
+                        src="/logo-header.png"
                         alt="Arschis Computers" 
-                        width="5853"
-                        height="2200"
+                        width="360"
+                        height="120"
                         decoding="async"
                         class="h-10 sm:h-14 md:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                     />
