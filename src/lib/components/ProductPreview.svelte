@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getOptimizedProductImage, getProductQuoteUrl, type ProductLoadResult } from '$lib/products';
+    import { getOptimizedProductImage, getProductImageSrcset, getProductQuoteUrl, type ProductLoadResult } from '$lib/products';
     import { getWhatsAppUrl, phoneUrl } from '$lib/contact';
 
     let { productData }: { productData: ProductLoadResult } = $props();
@@ -22,7 +22,7 @@
                         <div class="aspect-[4/3] bg-white p-3">
                             <img
                                 src={getOptimizedProductImage(product.image, 480)}
-                                srcset={product.image ? `${getOptimizedProductImage(product.image, 320)} 320w, ${getOptimizedProductImage(product.image, 480)} 480w` : undefined}
+                                srcset={getProductImageSrcset(product.image)}
                                 sizes="(min-width: 1024px) 25vw, 50vw"
                                 alt={product.name || 'Arschis Computers product'}
                                 width="480"

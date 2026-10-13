@@ -3,6 +3,7 @@
         formatProductSpecs,
         getProductQuoteUrl,
         getOptimizedProductImage,
+        getProductImageSrcset,
     } from '$lib/products';
     import Seo from '$lib/components/Seo.svelte';
     import Footer from '$lib/components/Footer.svelte';
@@ -98,7 +99,7 @@
                             {#if product.condition}<span class="absolute right-4 top-4 z-10 rounded-full bg-[#F4C542] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#0F284F]">{conditionLabel(product.condition)}</span>{/if}
                             <img 
                                 src={getOptimizedProductImage(product.image, 720)}
-                                srcset={product.image ? `${getOptimizedProductImage(product.image, 480)} 480w, ${getOptimizedProductImage(product.image, 720)} 720w` : undefined}
+                                srcset={getProductImageSrcset(product.image)}
                                 sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
                                 alt={product.name || 'Arschis Computers product'}
                                 width="720"

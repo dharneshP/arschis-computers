@@ -40,6 +40,11 @@ export function getOptimizedProductImage(imageUrl: string | undefined, width: nu
 	return url.href;
 }
 
+export function getProductImageSrcset(imageUrl: string | undefined) {
+	if (!imageUrl) return undefined;
+	return [320, 480, 640, 800, 1200].map((width) => getOptimizedProductImage(imageUrl, width) + ' ' + width + 'w').join(', ');
+}
+
 export function formatProductSpecs(specs = '') {
 	return specs.split(/\||,/).map((spec) => spec.trim()).filter(Boolean);
 }
