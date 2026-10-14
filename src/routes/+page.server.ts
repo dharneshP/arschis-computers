@@ -4,7 +4,11 @@ import type { PageServerLoad } from './$types';
 import { featuredGalleryQuery } from '$lib/gallery';
 import { loadGallery } from '$lib/server/gallery';
 
-export const load: PageServerLoad = async () => ({
-	productData: await loadProducts(featuredProductsQuery),
-	galleryData: await loadGallery(featuredGalleryQuery)
-});
+export const load: PageServerLoad = async () => {
+	const [productData, galleryData] = await Promise.all([
+		loadProducts(featuredProductsQuery),
+		loadGallery(featuredGalleryQuery)
+	]);
+
+	return { productData, galleryData };
+};
