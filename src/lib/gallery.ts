@@ -47,3 +47,8 @@ export function getSanityImageUrl(image: GalleryImage | undefined, width: number
 	url.searchParams.set('auto', 'format');
 	return url.href;
 }
+
+export function getSanityImageSrcset(image: GalleryImage | undefined) {
+	if (!image?.asset?.url) return undefined;
+	return [160, 240, 320, 480].map((width) => getSanityImageUrl(image, width) + ' ' + width + 'w').join(', ');
+}

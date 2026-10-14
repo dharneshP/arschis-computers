@@ -60,17 +60,19 @@
 />
 <BusinessStructuredData />
 <svelte:head>
-    <link rel="preload" as="image" href="/home-hero.jpg" type="image/jpeg" fetchpriority="high" />
+    <link rel="preload" as="image" imagesrcset="/home-hero-480.jpg 480w, /home-hero-768.jpg 768w, /home-hero-optimized.jpg 1280w" imagesizes="100vw" type="image/jpeg" fetchpriority="high" />
 </svelte:head>
 
 <main class="w-full bg-white">
     <!-- Hero Section -->
     <section class="relative isolate flex min-h-[26rem] items-center overflow-hidden border-t border-slate-200 px-4 py-10 sm:min-h-[34rem] sm:py-24" aria-labelledby="hero-heading">
         <img
-            src="/home-hero.jpg"
+            srcset="/home-hero-480.jpg 480w, /home-hero-768.jpg 768w, /home-hero-optimized.jpg 1280w"
+            sizes="100vw"
+            src="/home-hero-optimized.jpg"
             alt=""
-            width="1920"
-            height="1280"
+            width="1280"
+            height="1290"
             loading="eager"
             fetchpriority="high"
             decoding="async"

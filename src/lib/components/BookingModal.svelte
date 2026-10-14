@@ -89,6 +89,7 @@ I would like to book a service.
                 </div>
                 <button 
                     onclick={() => $isBookingOpen = false}
+                    aria-label="Close booking form"
                     class="text-slate-400 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 w-8 h-8 rounded-full flex items-center justify-center transition-colors"
                 >
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -112,10 +113,10 @@ I would like to book a service.
                     </div>
 
                     <!-- Service Category Chips (Multi-select) -->
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">
+                    <fieldset>
+                        <legend class="block text-sm font-bold text-slate-700 mb-2">
                             What needs service? * <span class="text-xs text-slate-400 font-normal ml-1">(Select multiple if needed)</span>
-                        </label>
+                        </legend>
                         <div class="flex flex-wrap gap-2">
                             {#each serviceCategories as service}
                                 <button 
@@ -129,7 +130,7 @@ I would like to book a service.
                                 </button>
                             {/each}
                         </div>
-                    </div>
+                    </fieldset>
 
                     <!-- Problem Description -->
                     <div>
@@ -138,8 +139,8 @@ I would like to book a service.
                     </div>
 
                     <!-- Preferred Service -->
-                    <div>
-                        <label class="block text-sm font-bold text-slate-700 mb-2">Preferred Service</label>
+                    <fieldset>
+                        <legend class="block text-sm font-bold text-slate-700 mb-2">Preferred Service</legend>
                         <div class="flex gap-6">
                             <label class="flex items-center gap-2 cursor-pointer group">
                                 <input type="radio" name="service_type" value="Visit Arschis Store" bind:group={preferredType} class="w-5 h-5 text-[#DC2626] focus:ring-[#DC2626] border-slate-300" />
@@ -150,7 +151,7 @@ I would like to book a service.
                                 <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">On-site Service</span>
                             </label>
                         </div>
-                    </div>
+                    </fieldset>
                 </form>
             </div>
 
