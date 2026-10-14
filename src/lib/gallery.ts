@@ -50,5 +50,5 @@ export function getSanityImageUrl(image: GalleryImage | undefined, width: number
 
 export function getSanityImageSrcset(image: GalleryImage | undefined) {
 	if (!image?.asset?.url) return undefined;
-	return [320, 480, 640, 800, 1200].map((width) => getSanityImageUrl(image, width) + ' ' + width + 'w').join(', ');
+	return [160, 240, 320, 480].map((width) => getSanityImageUrl(image, width) + ' ' + width + 'w').join(', ');
 }

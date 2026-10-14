@@ -21,12 +21,12 @@
                     <article class="flex min-w-0 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white">
                         <div class="aspect-[4/3] bg-white p-3">
                             <img
-                                src={getOptimizedProductImage(product.image, 480)}
+                                src={getOptimizedProductImage(product.image, 320)}
                                 srcset={getProductImageSrcset(product.image)}
                                 sizes="(min-width: 1024px) 25vw, 50vw"
                                 alt={product.name || 'Arschis Computers product'}
-                                width="480"
-                                height="360"
+                                width="320"
+                                height="240"
                                 loading="lazy"
                                 decoding="async"
                                 class="h-full w-full object-contain"

@@ -42,7 +42,7 @@ export function getOptimizedProductImage(imageUrl: string | undefined, width: nu
 
 export function getProductImageSrcset(imageUrl: string | undefined) {
 	if (!imageUrl) return undefined;
-	return [320, 480, 640, 800, 1200].map((width) => getOptimizedProductImage(imageUrl, width) + ' ' + width + 'w').join(', ');
+	return [160, 240, 320, 480].map((width) => getOptimizedProductImage(imageUrl, width) + ' ' + width + 'w').join(', ');
 }
 
 export function formatProductSpecs(specs = '') {

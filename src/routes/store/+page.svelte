@@ -44,8 +44,8 @@
 </script>
 
 <Seo
-    title="Computer Products | Arschis Computers"
-    description="Explore desktops, PC cabinets and computer components available from Arschis Computers in Erode, with direct quote enquiries."
+    title="Computer Store in Erode | Arschis Computers"
+    description="Browse current computer products from Arschis Computers in Erode, including laptops, desktops, printers and monitors, with direct quote enquiries."
     path="/store"
 />
 
@@ -53,10 +53,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center mb-7 sm:mb-12">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-[#0F284F] mb-4">Our Store</h1>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-[#0F284F] mb-4">Computer Store in Erode</h1>
             <p class="text-lg text-slate-600 max-w-2xl mx-auto">
-                Browse our premium selection of branded desktops, high-airflow gaming cabinets, and core components. Tap 'Enquire' to get an instant quote via WhatsApp.
+                Browse current laptops, desktops, printers and monitors from Arschis Computers. Product condition and availability depend on current stock.
             </p>
+            <nav aria-label="Product categories" class="mt-5 flex flex-wrap justify-center gap-2 text-sm font-bold"><a class="rounded-full border border-slate-300 px-3 py-2 text-[#0F284F]" href="/store/laptops/">Laptops</a><a class="rounded-full border border-slate-300 px-3 py-2 text-[#0F284F]" href="/store/desktops/">Desktop Computers</a><a class="rounded-full border border-slate-300 px-3 py-2 text-[#0F284F]" href="/store/printers/">Printers</a><a class="rounded-full border border-slate-300 px-3 py-2 text-[#0F284F]" href="/store/monitors/">Monitors</a></nav>
         </div>
 
         <div class="mb-10 space-y-4">
@@ -98,12 +99,12 @@
                         <div class="relative flex h-36 items-center justify-center overflow-hidden bg-slate-100 p-2 sm:h-64 sm:p-4">
                             {#if product.condition}<span class="absolute right-4 top-4 z-10 rounded-full bg-[#F4C542] px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-[#0F284F]">{conditionLabel(product.condition)}</span>{/if}
                             <img 
-                                src={getOptimizedProductImage(product.image, 720)}
+                                src={getOptimizedProductImage(product.image, 480)}
                                 srcset={getProductImageSrcset(product.image)}
                                 sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
                                 alt={product.name || 'Arschis Computers product'}
-                                width="720"
-                                height="480"
+                                width="480"
+                                height="320"
                                 loading="lazy"
                                 decoding="async"
                                 class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
