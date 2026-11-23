@@ -1,75 +1,29 @@
 <script lang="ts">
-    import { getWhatsAppUrl } from '$lib/contact';
     import { isBookingOpen } from '$lib/store';
-
+    import { getWhatsAppUrl } from '$lib/contact';
+    import Button from '$lib/components/ui/Button.svelte';
     const services = [
-        {
-            title: 'Laptop & PC Service',
-            description: 'Diagnostics, repairs, OS installation and performance upgrades.',
-            icon: 'fa-laptop-medical',
-            booking: true
-            ,href: '/laptop-service-erode/'
-        },
-        {
-            title: 'Computer Sales',
-            description: 'Desktops, components and systems matched to your requirements.',
-            icon: 'fa-computer',
-            booking: false
-            ,href: '/computer-sales-erode/'
-        },
-        {
-            title: 'Printer Sales & Service',
-            description: 'Printer supply, maintenance, ink and toner support.',
-            icon: 'fa-print',
-            booking: false
-            ,href: '/printer-service-erode/'
-        },
-        {
-            title: 'Networking',
-            description: 'Reliable wired and wireless network setup and support.',
-            icon: 'fa-network-wired',
-            booking: false
-        },
-        {
-            title: 'IT Support & AMC',
-            description: 'Ongoing IT support and maintenance for business systems.',
-            icon: 'fa-headset',
-            booking: false
-        }
+        { id: 'service-laptop', title: 'Laptop Repair', copy: 'Power, display, keyboard and performance troubleshooting.', icon: 'fa-laptop-medical', href: '/laptop-service-erode/' },
+        { id: 'service-pc', title: 'Desktop Service', copy: 'Diagnostics, Windows support and hardware troubleshooting.', icon: 'fa-desktop', href: '/computer-service-erode/' },
+        { id: 'service-printer', title: 'Printer Service', copy: 'Setup, connectivity and common printing problems.', icon: 'fa-print', href: '/printer-service-erode/' },
+        { id: 'service-upgrades', title: 'Computer Upgrades', copy: 'Discuss compatible RAM, SSD and system upgrades.', icon: 'fa-microchip', href: '/computer-service-erode/' }
     ];
-
-    function quoteUrl(service: string) {
-        return getWhatsAppUrl(`Hi Arschis Computers, I would like a quote for ${service}.`);
-    }
 </script>
 
-<section id="services" class="scroll-mt-20 bg-white px-3 py-14 sm:px-6 sm:py-20" aria-labelledby="services-heading">
-    <div class="mx-auto max-w-7xl">
-        <div class="mx-auto mb-9 max-w-2xl text-center sm:mb-12">
-            <p class="mb-2 text-sm font-bold uppercase tracking-[0.18em] text-[#D92323]">Sales, service and support</p>
-            <h2 id="services-heading" class="text-3xl font-extrabold text-[#0B1F3A] sm:text-4xl">Computer & IT Services</h2>
+<section id="services" class="scroll-mt-24 bg-brand-navy py-section text-white" aria-labelledby="services-heading">
+    <div class="site-container">
+        <div class="mb-10 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+            <div class="max-w-2xl"><p class="mb-3 text-sm font-semibold tracking-widest text-blue-200 uppercase">Care for your technology</p><h2 id="services-heading" class="text-heading font-bold tracking-tight">Your Computer Service Center</h2><p class="mt-4 text-base leading-relaxed text-slate-200">When your technology needs attention, talk to a local team. Tell us the issue and we'll discuss diagnosis and the next steps.</p></div>
+            <Button onclick={() => $isBookingOpen = true} aria-haspopup="dialog" class="min-h-12 shrink-0 px-6">Book Service</Button>
         </div>
-
-        <div class="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-5">
+        <div class="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-4">
             {#each services as service}
-                <article id={service.title.startsWith('Laptop') ? 'service-pc' : service.title.startsWith('Printer') ? 'service-printer' : service.title === 'Networking' ? 'service-networking' : undefined} class="scroll-mt-24 flex min-w-0 flex-col rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow duration-300 sm:p-6">
-                    <i class="fa-solid {service.icon} mb-3 text-2xl text-[#D92323] sm:text-3xl" aria-hidden="true"></i>
-                    <h3 class="text-base font-bold leading-tight text-[#0B1F3A] sm:text-xl">{service.title}</h3>
-                    <p class="mt-2 flex-1 text-xs leading-relaxed text-slate-600 sm:text-sm">{service.description}</p>
-
-                    {#if service.href}
-                        <a href={service.href} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#D92323] px-3 py-2 text-xs font-bold text-[#D92323] transition-colors hover:bg-red-50 sm:text-sm">View Service</a>
-                    {:else if service.booking}
-                        <button onclick={() => $isBookingOpen = true} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg bg-[#D92323] px-3 py-2 text-xs font-bold text-white transition-colors hover:bg-red-700 sm:text-sm">
-                            Book a Service
-                        </button>
-                    {:else}
-                        <a href={quoteUrl(service.title)} target="_blank" rel="noopener noreferrer" aria-label={`Get a quote for ${service.title} on WhatsApp`} class="mt-4 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#D92323] px-3 py-2 text-xs font-bold text-[#D92323] transition-colors hover:bg-red-50 sm:text-sm">
-                            Get a Quote
-                        </a>
-                    {/if}
-                </article>
+                <a id={service.id} href={service.href} class="group min-w-0 scroll-mt-24 rounded-2xl border border-white/15 bg-white/5 p-6 transition-colors hover:border-blue-300/60 hover:bg-white/10">
+                    <i class="fa-solid {service.icon} mb-6 text-3xl text-blue-300" aria-hidden="true"></i>
+                    <h3 class="text-lg font-semibold">{service.title}</h3><p class="mt-3 text-sm leading-relaxed text-slate-200">{service.copy}</p><span class="mt-5 inline-flex min-h-11 items-center text-sm font-semibold text-blue-200">Explore service</span>
+                </a>
             {/each}
         </div>
+        <div id="service-networking" class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-white/15 pt-6 text-sm text-slate-200"><span>Also here for your business:</span><a href={getWhatsAppUrl('Hi Arschis Computers, I would like a quote for Networking.')} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-semibold text-blue-200 underline underline-offset-4">Networking</a><a href={getWhatsAppUrl('Hi Arschis Computers, I would like a quote for IT Support & AMC.')} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center font-semibold text-blue-200 underline underline-offset-4">IT Support & AMC</a><a href="/computer-sales-erode/" class="inline-flex min-h-11 items-center font-semibold text-blue-200 underline underline-offset-4">Computer Sales</a></div>
     </div>
 </section>

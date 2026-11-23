@@ -1,6 +1,5 @@
 <script lang="ts">
     import Gallery from '$lib/components/Gallery.svelte';
-    import Footer from '$lib/components/Footer.svelte';
     import Seo from '$lib/components/Seo.svelte';
     import type { PageProps } from './$types';
 
@@ -18,4 +17,3 @@
 <main class="min-h-screen bg-white">
     <Gallery data={data.galleryData} />
 </main>
-<Footer />

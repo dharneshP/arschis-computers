@@ -4,6 +4,6 @@ import { storeCategories, type StoreCategorySlug } from '$lib/store-categories';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const category = storeCategories[params.category as StoreCategorySlug];
+	const category = Object.hasOwn(storeCategories, params.category) ? storeCategories[params.category as StoreCategorySlug] : undefined;
 	return { category: category ? { ...category, slug: params.category } : null, productData: category ? await loadProducts(allProductsQuery) : { products: [], status: 'error' as const } };
 };

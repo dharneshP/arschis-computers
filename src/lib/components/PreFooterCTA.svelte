@@ -1,23 +1,21 @@
-<!-- Hidden on mobile (sticky bar handles mobile CTA), Visible on desktop -->
-<section id="contact" class="hidden md:block bg-[#0F172A] py-12 border-t border-slate-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex min-w-0 flex-col items-stretch justify-between gap-6 rounded-2xl border border-slate-700 bg-slate-800 p-5 sm:p-8 md:flex-row md:items-center">
-            
-            <div>
-                <h2 class="text-3xl font-extrabold text-white mb-2">Need Computer or IT Service?</h2>
-                <p class="text-slate-300">Contact Arschis Computers for service and sales enquiries.</p>
-            </div>
-            
-            <!-- CTA Buttons -->
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-                <a href="https://wa.me/919944252527" target="_blank" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[#25D366] px-5 py-3 font-bold text-slate-900 shadow-lg transition-transform hover:-translate-y-1 sm:w-auto sm:px-6">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp
-                </a>
-                <a href="tel:+919944252527" class="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border-2 border-[#FFD700] px-5 py-3 font-bold text-[#FFD700] shadow-lg transition-all hover:bg-[#FFD700] hover:text-slate-900 sm:w-auto sm:px-6">
-                    <i class="fa-solid fa-phone"></i> Call Now
-                </a>
-            </div>
+<script lang="ts">
+    import ContactActions from '$lib/components/ContactActions.svelte';
+    import { site, businessAddress, businessHoursLabel } from '$lib/site';
+    import { googleMapsDirectionsUrl } from '$lib/location';
+    import Button from '$lib/components/ui/Button.svelte';
+</script>
 
+<section id="contact" class="scroll-mt-24 border-t border-brand-border bg-brand-navy py-section" aria-labelledby="contact-heading">
+    <div class="site-container grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
+        <div>
+            <p class="mb-3 text-sm font-semibold tracking-widest text-blue-200 uppercase">Visit or get in touch</p>
+            <h2 id="contact-heading" class="text-heading font-bold text-white">Need Computer or IT Service?</h2>
+            <p class="mt-4 text-slate-200">Contact {site.name} for service and sales enquiries.</p>
+            <address class="mt-5 space-y-2 text-base text-slate-200 not-italic"><p>{businessAddress}</p><p>{businessHoursLabel}</p><p><a class="break-all underline underline-offset-4 hover:text-white" href={'mailto:' + site.email}>{site.email}</a></p></address>
+        </div>
+        <div class="space-y-4">
+            <ContactActions light />
+            <Button href={googleMapsDirectionsUrl} target="_blank" variant="light">Get Directions</Button>
         </div>
     </div>
 </section>

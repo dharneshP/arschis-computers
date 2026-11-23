@@ -1,6 +1,5 @@
 <script lang="ts">
     import FAQ from '$lib/components/FAQ.svelte';
-    import Footer from '$lib/components/Footer.svelte';
     import Seo from '$lib/components/Seo.svelte';
 </script>
 
@@ -13,4 +12,3 @@
 <main class="min-h-screen bg-slate-50">
     <FAQ />
 </main>
-<Footer />

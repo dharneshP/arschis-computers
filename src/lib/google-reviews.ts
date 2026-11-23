@@ -24,12 +24,15 @@ export interface GoogleReviewResult extends GoogleReviewData {
 }
 
 let reviewRequest: Promise<GoogleReviewResult> | undefined;
+let cachedResult: GoogleReviewResult | undefined;
+let cachedUntil = 0;
 
 export function getGoogleReviewData() {
+	if (cachedResult && Date.now() < cachedUntil) return Promise.resolve(cachedResult);
 	if (reviewRequest) return reviewRequest;
 
 	const controller = new AbortController();
-	const timeout = setTimeout(() => controller.abort(), 5500);
+	const timeout = setTimeout(() => controller.abort(), 9500);
 
 	const request = fetch('/api/reviews?v=2', { signal: controller.signal })
 		.then(async (response) => {
@@ -53,6 +56,10 @@ export function getGoogleReviewData() {
 			return { reviews: [], status: 'empty' } satisfies GoogleReviewResult;
 		})
 		.catch(() => ({ reviews: [], status: 'error' }) satisfies GoogleReviewResult)
+		.then((result) => {
+			if (result.status !== 'error') { cachedResult = result; cachedUntil = Date.now() + 120000; }
+			return result;
+		})
 		.finally(() => {
 			clearTimeout(timeout);
 			if (reviewRequest === request) reviewRequest = undefined;
