@@ -39,6 +39,8 @@ export const allGalleryQuery = `*[_type == "galleryItem" && !(_id in path("draft
 
 export const featuredGalleryQuery = `*[_type == "galleryItem" && !(_id in path("drafts.**")) && featured == true] | order(coalesce(displayOrder, 999999) asc, workDate desc, _createdAt desc)[0...6]${galleryProjection}`;
 
+export const recentGalleryQuery = `*[_type == "galleryItem" && !(_id in path("drafts.**"))] | order(workDate desc, _createdAt desc)[0...3]${galleryProjection}`;
+
 export function getSanityImageUrl(image: GalleryImage | undefined, width: number) {
 	if (!image?.asset?.url) return undefined;
 	const url = new URL(image.asset.url);

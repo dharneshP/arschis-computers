@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import Dialog from '$lib/components/ui/Dialog.svelte';
     import { galleryCategories, getSanityImageUrl, type GalleryItem, type GalleryLoadResult } from '$lib/gallery';
 
     let { data }: { data: GalleryLoadResult } = $props();
@@ -8,13 +8,7 @@
     let playingVideo = $state<string | null>(null);
     let filteredItems = $derived(activeCategory === 'All' ? data.items : data.items.filter((item) => item.category === activeCategory));
 
-    onMount(() => {
-        const closeOnEscape = (event: KeyboardEvent) => {
-            if (event.key === 'Escape') selectedItem = null;
-        };
-        document.addEventListener('keydown', closeOnEscape);
-        return () => document.removeEventListener('keydown', closeOnEscape);
-    });
+    const videoItem = $derived(data.items.find((item) => item._id === playingVideo));
 
     function embedUrl(url: string) {
         const youtube = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([^?&/]+)/);
@@ -24,27 +18,29 @@
     }
 
     function openItem(item: GalleryItem) {
+        selectedItem = null;
+        playingVideo = null;
         if (item.mediaType === 'image') selectedItem = item;
         else playingVideo = item._id;
     }
 </script>
 
-<section id="gallery" class="bg-white px-4 py-14 sm:py-20" aria-labelledby="gallery-heading">
+<section id="gallery" class="bg-white px-4 py-section" aria-labelledby="gallery-heading">
     <div class="mx-auto max-w-7xl">
         <div class="mb-10 text-center">
-            <i class="fa-solid fa-images mb-5 text-4xl text-[#D92323]" aria-hidden="true"></i>
-            <h1 id="gallery-heading" class="text-3xl font-extrabold tracking-tight text-[#0B1F3A] sm:text-4xl">Our Work Gallery</h1>
+            <i class="fa-solid fa-images mb-5 text-4xl text-brand-blue" aria-hidden="true"></i>
+            <h1 id="gallery-heading" class="text-3xl font-extrabold tracking-tight text-brand-navy sm:text-4xl">Our Work Gallery</h1>
             <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">Genuine computer sales, service, networking and installation work from Arschis Computers.</p>
         </div>
 
         {#if data.status === 'error'}
-            <div class="rounded-xl border border-red-100 bg-red-50 p-8 text-center" role="alert"><p class="font-bold text-[#0B1F3A]">Gallery content is temporarily unavailable.</p><p class="mt-2 text-slate-600">Please try again shortly or contact Arschis Computers.</p></div>
+            <div class="rounded-xl border border-red-100 bg-red-50 p-8 text-center" role="alert"><p class="font-bold text-brand-navy">Gallery content is temporarily unavailable.</p><p class="mt-2 text-slate-600">Please try again shortly or contact Arschis Computers.</p></div>
         {:else if data.items.length === 0}
-            <div class="rounded-xl border border-slate-200 bg-slate-50 p-10 text-center"><p class="font-bold text-[#0B1F3A]">Our work gallery is being updated.</p><p class="mt-2 text-slate-600">New service and installation projects will appear here soon.</p><a href="/#contact" class="mt-5 inline-flex min-h-11 items-center rounded-lg bg-[#D92323] px-5 py-3 font-bold text-white hover:bg-red-700">Contact Arschis Computers</a></div>
+            <div class="rounded-xl border border-slate-200 bg-slate-50 p-10 text-center"><p class="font-bold text-brand-navy">Our work gallery is being updated.</p><p class="mt-2 text-slate-600">New service and installation projects will appear here soon.</p><a href="/#contact" class="mt-5 inline-flex min-h-11 items-center rounded-lg bg-brand-blue px-5 py-3 font-bold text-white hover:bg-brand-blue-dark">Contact Arschis Computers</a></div>
         {:else}
             <div class="mb-8 flex flex-wrap justify-center gap-2" aria-label="Filter gallery by category">
                 {#each galleryCategories as category}
-                    <button type="button" class:!bg-[#D92323]={activeCategory === category} class:!text-white={activeCategory === category} class="min-h-11 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-[#0B1F3A] transition-colors hover:border-[#D92323] hover:text-[#D92323]" aria-pressed={activeCategory === category} onclick={() => activeCategory = category}>{category}</button>
+                    <button type="button" class:!bg-brand-blue={activeCategory === category} class:!text-white={activeCategory === category} class="min-h-11 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-brand-navy transition-colors hover:border-brand-blue hover:text-brand-blue" aria-pressed={activeCategory === category} onclick={() => activeCategory = category}>{category}</button>
                 {/each}
             </div>
             {#if filteredItems.length}
@@ -61,12 +57,12 @@
                                     <button type="button" class="group relative block h-full w-full" aria-label={`Play ${item.title}`} onclick={() => openItem(item)}>
                                         {#if item.videoThumbnail}
                                             <img src={getSanityImageUrl(item.videoThumbnail, 900)} alt={item.videoThumbnail.alt || item.title} width={item.videoThumbnail.asset?.metadata?.dimensions?.width || 1200} height={item.videoThumbnail.asset?.metadata?.dimensions?.height || 900} loading="lazy" class="h-full w-full object-cover" />
-                                        {:else}<div class="h-full w-full bg-[#0B1F3A]"></div>{/if}
+                                        {:else}<div class="h-full w-full bg-brand-navy"></div>{/if}
                                         <span class="absolute inset-0 flex items-center justify-center bg-black/25 text-white"><i class="fa-solid fa-circle-play text-5xl transition group-hover:scale-110" aria-hidden="true"></i></span>
                                     </button>
                                 {/if}
                             </div>
-                            <div class="p-5"><div class="mb-2 text-xs font-bold uppercase tracking-wide text-[#D92323]">{item.category}</div><h2 class="text-lg font-extrabold text-[#0B1F3A]">{item.title}</h2>{#if item.description}<p class="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>{/if}</div>
+                            <div class="p-5"><div class="mb-2 text-xs font-bold uppercase tracking-wide text-brand-blue">{item.category}</div><h2 class="text-lg font-extrabold text-brand-navy">{item.title}</h2>{#if item.description}<p class="mt-2 text-sm leading-relaxed text-slate-600">{item.description}</p>{/if}</div>
                         </article>
                     {/each}
                 </div>
@@ -75,24 +71,12 @@
     </div>
 </section>
 
-{#if selectedItem}
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" role="presentation" onclick={(event) => event.target === event.currentTarget && (selectedItem = null)}>
-        <div class="relative max-h-[90vh] max-w-5xl overflow-auto rounded-xl bg-white p-3 shadow-2xl" role="dialog" aria-modal="true" aria-label={selectedItem.title}>
-            <button type="button" class="absolute right-5 top-5 z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-black/70 text-white" aria-label="Close image lightbox" onclick={() => selectedItem = null}><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-            <img src={getSanityImageUrl(selectedItem.image, 1800)} alt={selectedItem.image?.alt || selectedItem.title} class="max-h-[70vh] w-auto rounded-lg object-contain" />
-            <div class="px-2 pb-2 pt-4"><h2 class="text-xl font-extrabold text-[#0B1F3A]">{selectedItem.title}</h2>{#if selectedItem.description}<p class="mt-2 text-slate-600">{selectedItem.description}</p>{/if}</div>
-        </div>
-    </div>
-{/if}
-
-{#if playingVideo}
-    {@const videoItem = data.items.find((item) => item._id === playingVideo)}
-    {#if videoItem?.video}
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4" role="presentation" onclick={(event) => event.target === event.currentTarget && (playingVideo = null)}>
-            <div class="relative w-full max-w-4xl rounded-xl bg-black p-2" role="dialog" aria-modal="true" aria-label={videoItem.title}>
-                <button type="button" class="absolute -right-2 -top-2 z-10 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full bg-white text-[#0B1F3A]" aria-label="Close video" onclick={() => playingVideo = null}><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-                <div class="aspect-video"><iframe src={embedUrl(videoItem.video)} title={videoItem.title} class="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-            </div>
-        </div>
+<Dialog open={!!selectedItem} onclose={() => selectedItem = null} title={selectedItem?.title || 'Image preview'} variant="wide">
+    {#if selectedItem}
+        <img src={getSanityImageUrl(selectedItem.image, 1800)} alt={selectedItem.image?.alt || selectedItem.title} class="mx-auto max-h-[65dvh] w-full rounded-lg object-contain" />
+        {#if selectedItem.description}<p class="mt-4 text-brand-muted">{selectedItem.description}</p>{/if}
     {/if}
-{/if}
+</Dialog>
+<Dialog open={!!videoItem?.video} onclose={() => playingVideo = null} title={videoItem?.title || 'Video preview'} variant="wide">
+    {#if videoItem?.video}<div class="aspect-video"><iframe src={embedUrl(videoItem.video)} title={videoItem.title} class="h-full w-full rounded-lg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>{/if}
+</Dialog>

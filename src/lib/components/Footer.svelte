@@ -1,86 +1,44 @@
 <script lang="ts">
     import { businessPhone, phoneUrl, secondaryBusinessPhone, secondaryPhoneUrl } from '$lib/contact';
+    import { site, businessAddress, businessHoursLabel } from '$lib/site';
+    import { googleMapsDirectionsUrl } from '$lib/location';
 </script>
 
-<footer class="bg-[#0F172A] text-slate-300 pt-16 pb-6 md:pb-12 border-t border-slate-800">
-    <div class="mx-auto min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <!-- 1 column on mobile, 3 columns on desktop -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8">
-            
-            <!-- Column 1: Business Information -->
-            <div class="min-w-0 space-y-5">
-                <h3 class="text-white text-xl font-extrabold tracking-wide mb-2">Arschis Computers</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start gap-3">
-                        <i class="fa-solid fa-location-dot mt-1 text-[#DC2626]"></i>
-                        <span class="text-sm">
-                            8, NSTV Building,<br />
-                            Brough Road, Fort<br />
-                            Erode - 638001
-                        </span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-phone text-[#DC2626]"></i>
-                        <a href={phoneUrl} class="text-sm hover:text-white transition-colors">{businessPhone}</a>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-phone text-[#DC2626]"></i>
-                        <a href={secondaryPhoneUrl} class="text-sm hover:text-white transition-colors">{secondaryBusinessPhone}</a>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-clock text-[#DC2626]"></i>
-                        <span class="text-sm">10:00 AM - 9:00 PM</span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="fa-solid fa-envelope text-[#DC2626]"></i>
-                        <a href="mailto:arschiscomputers@gmail.com" class="break-all text-sm hover:text-white transition-colors">arschiscomputers@gmail.com</a>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fa-solid fa-user-tie mt-1 text-[#DC2626]"></i>
-                        <span class="text-sm">Prop: P. Vasanthakumar B.Sc., DECE.</span>
-                    </li>
-                </ul>
+<footer class="border-t border-white/10 bg-brand-navy-dark py-12 text-slate-300 sm:py-16">
+    <div class="site-container">
+        <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
+            <div class="min-w-0">
+                <h2 class="text-xl font-bold text-white">{site.name}</h2>
+                <address class="mt-5 space-y-3 text-sm not-italic">
+                    <p>{businessAddress}</p>
+                    <p><a href={googleMapsDirectionsUrl} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-blue-200 underline underline-offset-4 hover:text-white">Get Directions</a></p>
+                    <p><a href={phoneUrl} class="inline-flex min-h-11 items-center hover:text-white">{businessPhone}</a></p>
+                    <p><a href={secondaryPhoneUrl} class="inline-flex min-h-11 items-center hover:text-white">{secondaryBusinessPhone}</a></p>
+                    <p>{businessHoursLabel}</p>
+                    <p><a href={'mailto:' + site.email} class="inline-flex min-h-11 items-center break-all hover:text-white">{site.email}</a></p>
+                    <p>Prop: {site.proprietor}</p>
+                </address>
             </div>
-
-            <!-- Mobile Separator -->
-            <hr class="border-slate-800 md:hidden block" />
-
-            <!-- Column 2: Quick Links -->
-            <div>
-                <h3 class="text-white text-lg font-bold mb-6 border-b border-slate-700 pb-2 inline-block border-b-[#FFD700]">Quick Links</h3>
-                <!-- Grid cols-2 on mobile for compact layout, cols-1 on desktop -->
-                <ul class="grid grid-cols-2 md:grid-cols-1 gap-3 text-sm">
-                    <li><a href="/" class="hover:text-[#FFD700] transition-colors">Home</a></li>
-                    <li><a href="/store" class="hover:text-[#FFD700] transition-colors">Products</a></li>
-                    <li><a href="/gallery" class="hover:text-[#FFD700] transition-colors">Our Work</a></li>
-                    <li><a href="/#contact" class="hover:text-[#FFD700] transition-colors">Contact</a></li>
+            <nav aria-label="Footer navigation">
+                <h2 class="mb-4 text-base font-semibold text-white">Quick Links</h2>
+                <ul class="grid grid-cols-2 gap-x-4 md:grid-cols-1">
+                    {#each [{label:'Home',href:'/'},{label:'Shop',href:'/store'},{label:'Services',href:'/#services'},{label:'About',href:'/#about'},{label:'Our Work',href:'/gallery'},{label:'Contact',href:'/#contact'},{label:'FAQs',href:'/faq'}] as link}
+                        <li><a class="inline-flex min-h-11 items-center text-sm hover:text-white" href={link.href}>{link.label}</a></li>
+                    {/each}
                 </ul>
-            </div>
-
-            <!-- Mobile Separator -->
-            <hr class="border-slate-800 md:hidden block" />
-
-            <!-- Column 3: Services -->
-            <div>
-                <h3 class="text-white text-lg font-bold mb-6 border-b border-slate-700 pb-2 inline-block border-b-[#FFD700]">Our Services</h3>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="/laptop-service-erode/" class="hover:text-[#FFD700] transition-colors">Laptop Service</a></li>
-                    <li><a href="/store" class="hover:text-[#FFD700] transition-colors">Computer Sales</a></li>
-                    <li><a href="/printer-service-erode/" class="hover:text-[#FFD700] transition-colors">Printer Service</a></li>
-                    <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">Networking</a></li>
-                    <li><a href="/#services" class="hover:text-[#FFD700] transition-colors">IT Support & AMC</a></li>
+            </nav>
+            <nav aria-label="Footer product categories"><h2 class="mb-4 text-base font-semibold text-white">Shop by Category</h2><ul>{#each [{label:'Laptops',href:'/store/laptops/'},{label:'Desktops',href:'/store/desktops/'},{label:'Monitors',href:'/store/monitors/'},{label:'Printers',href:'/store/printers/'}] as category}<li><a href={category.href} class="inline-flex min-h-11 items-center text-sm hover:text-white">{category.label}</a></li>{/each}</ul></nav>
+            <nav aria-label="Footer services">
+                <h2 class="mb-4 text-base font-semibold text-white">Our Services</h2>
+                <ul>
+                    {#each [{label:'Laptop Service',href:'/laptop-service-erode/'},{label:'Computer Service',href:'/computer-service-erode/'},{label:'Computer Sales',href:'/store'},{label:'Printer Service',href:'/printer-service-erode/'},{label:'Networking',href:'/#services'},{label:'IT Support & AMC',href:'/#services'}] as link}
+                        <li><a class="inline-flex min-h-11 items-center text-sm hover:text-white" href={link.href}>{link.label}</a></li>
+                    {/each}
                 </ul>
-            </div>
-
+            </nav>
         </div>
-
-        <!-- Mobile Separator before copyright -->
-        <hr class="border-slate-800 mt-10 md:hidden block" />
-
-        <!-- Copyright -->
-        <div class="border-t-0 md:border-t md:border-slate-800 mt-6 md:mt-12 pt-4 md:pt-8 text-sm text-center flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>&copy; 2026 Arschis Computers. All rights reserved.</p>
-            <p class="text-slate-500">Serving Erode for 20+ Years</p>
+        <div class="mt-10 flex flex-col justify-between gap-3 border-t border-white/15 pt-6 text-sm md:flex-row">
+            <p>&copy; 2026 {site.name}. All rights reserved.</p><p>Computer sales, service &amp; IT support</p>
         </div>
     </div>
 </footer>
